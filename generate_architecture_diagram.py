@@ -98,11 +98,15 @@ def draw_diagram(lang='ko'):
     
     # 흐름 설명 라벨 추가
     if is_ko:
-        ax_w.text(2, 3.15, "로컬 요청", color='#8b949e', fontsize=8, ha='center')
-        ax_w.text(4.2, 2.7, "캐시 미스 시\n오리진 직접 요청", color='#ff7675', fontsize=8, ha='center')
+        ax_w.text(2, 3.15, "로컬 요청", color='#8b949e', fontsize=8, ha='center', va='center',
+                  bbox=dict(boxstyle='round,pad=0.2', facecolor='#0c1017', edgecolor='none', alpha=0.9))
+        ax_w.text(4.1, 2.85, "캐시 미스 시\n오리진 직접 요청", color='#ff7675', fontsize=8, ha='center', va='center',
+                  bbox=dict(boxstyle='round,pad=0.2', facecolor='#0c1017', edgecolor='none', alpha=0.9))
     else:
-        ax_w.text(2, 3.15, "Local Req", color='#8b949e', fontsize=8, ha='center')
-        ax_w.text(4.2, 2.7, "Direct Request on Miss", color='#ff7675', fontsize=8, ha='center')
+        ax_w.text(2, 3.15, "Local Req", color='#8b949e', fontsize=8, ha='center', va='center',
+                  bbox=dict(boxstyle='round,pad=0.2', facecolor='#0c1017', edgecolor='none', alpha=0.9))
+        ax_w.text(4.1, 2.85, "Direct Request\non Miss", color='#ff7675', fontsize=8, ha='center', va='center',
+                  bbox=dict(boxstyle='round,pad=0.2', facecolor='#0c1017', edgecolor='none', alpha=0.9))
 
     # 설명 박스
     ax_w.text(1, 0.2, desc_width, fontsize=10, color='#c9d1d9', va='top', ha='left',
@@ -172,6 +176,110 @@ def draw_diagram(lang='ko'):
     plt.close()
     print(f"-> 토폴로지 연결 다이어그램({lang}) 저장 완료: {output_path}")
 
+    # --- 1-1. Width 단독 저장 ---
+    fig_w, ax_w = plt.subplots(figsize=(8, 8))
+    fig_w.patch.set_facecolor(bg_color)
+    ax_w.set_facecolor(bg_color)
+    ax_w.set_title(title_width, fontsize=14, fontweight='bold', color=text_color, pad=15)
+    
+    ax_w.add_patch(patches.Circle((1, 3), 0.25, color=client_color, zorder=3))
+    ax_w.text(1, 3, label_client, ha='center', va='center', color='#000000', fontsize=9, fontweight='bold', zorder=4)
+    ax_w.add_patch(patches.Circle((3, 3), 0.28, color=l3_color, zorder=3))
+    ax_w.text(3, 3, label_l3, ha='center', va='center', color='#ffffff', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_w.add_patch(patches.Circle((1, 2), 0.25, color=client_color, zorder=3))
+    ax_w.text(1, 2, label_client, ha='center', va='center', color='#000000', fontsize=9, fontweight='bold', zorder=4)
+    ax_w.add_patch(patches.Circle((3, 2), 0.28, color=l2_color, zorder=3))
+    ax_w.text(3, 2, label_l2, ha='center', va='center', color='#ffffff', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_w.add_patch(patches.Circle((1, 1), 0.25, color=client_color, zorder=3))
+    ax_w.text(1, 1, label_client, ha='center', va='center', color='#000000', fontsize=9, fontweight='bold', zorder=4)
+    ax_w.add_patch(patches.Circle((3, 1), 0.28, color=l1_color, zorder=3))
+    ax_w.text(3, 1, label_l1, ha='center', va='center', color='#ffffff', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_w.add_patch(patches.RegularPolygon(xy=(5.2, 2), numVertices=5, radius=0.35, color=origin_color, zorder=3))
+    ax_w.text(5.2, 2, label_origin, ha='center', va='center', color='#000000', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_w.annotate('', xy=(2.72, 3), xytext=(1.25, 3), arrowprops=dict(arrowstyle="->", color='#8b949e', lw=2))
+    ax_w.annotate('', xy=(2.72, 2), xytext=(1.25, 2), arrowprops=dict(arrowstyle="->", color='#8b949e', lw=2))
+    ax_w.annotate('', xy=(2.72, 1), xytext=(1.25, 1), arrowprops=dict(arrowstyle="->", color='#8b949e', lw=2))
+    
+    ax_w.annotate('', xy=(4.9, 2.1), xytext=(3.28, 3), arrowprops=dict(arrowstyle="->", color='#ff7675', lw=2, linestyle='--'))
+    ax_w.annotate('', xy=(4.9, 2.0), xytext=(3.28, 2), arrowprops=dict(arrowstyle="->", color='#ff7675', lw=2, linestyle='--'))
+    ax_w.annotate('', xy=(4.9, 1.9), xytext=(3.28, 1), arrowprops=dict(arrowstyle="->", color='#ff7675', lw=2, linestyle='--'))
+    
+    if is_ko:
+        ax_w.text(2, 3.15, "로컬 요청", color='#8b949e', fontsize=8, ha='center', va='center',
+                  bbox=dict(boxstyle='round,pad=0.2', facecolor='#0c1017', edgecolor='none', alpha=0.9))
+        ax_w.text(4.1, 2.85, "캐시 미스 시\n오리진 직접 요청", color='#ff7675', fontsize=8, ha='center', va='center',
+                  bbox=dict(boxstyle='round,pad=0.2', facecolor='#0c1017', edgecolor='none', alpha=0.9))
+    else:
+        ax_w.text(2, 3.15, "Local Req", color='#8b949e', fontsize=8, ha='center', va='center',
+                  bbox=dict(boxstyle='round,pad=0.2', facecolor='#0c1017', edgecolor='none', alpha=0.9))
+        ax_w.text(4.1, 2.85, "Direct Request\non Miss", color='#ff7675', fontsize=8, ha='center', va='center',
+                  bbox=dict(boxstyle='round,pad=0.2', facecolor='#0c1017', edgecolor='none', alpha=0.9))
+
+    ax_w.text(1, 0.2, desc_width, fontsize=10, color='#c9d1d9', va='top', ha='left',
+              bbox=dict(boxstyle='round,pad=0.5', facecolor='#161b22', edgecolor='#30363d', alpha=0.8))
+              
+    ax_w.set_xlim(0.3, 5.9)
+    ax_w.set_ylim(-0.2, 3.6)
+    ax_w.axis('off')
+    
+    width_path = f'/home/donghwi/cloud_network_project/korea_cdn_topology_width_{lang}.png'
+    plt.savefig(width_path, dpi=300, facecolor=bg_color, bbox_inches='tight')
+    plt.close(fig_w)
+    print(f"-> 개별 Width개념도({lang}) 저장 완료: {width_path}")
+
+    # --- 1-2. Depth 단독 저장 ---
+    fig_d, ax_d = plt.subplots(figsize=(8, 6))
+    fig_d.patch.set_facecolor(bg_color)
+    ax_d.set_facecolor(bg_color)
+    ax_d.set_title(title_depth, fontsize=14, fontweight='bold', color=text_color, pad=15)
+    
+    ax_d.add_patch(patches.Circle((1.0, 2), 0.28, color=client_color, zorder=3))
+    ax_d.text(1.0, 2, label_client, ha='center', va='center', color='#000000', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_d.add_patch(patches.Circle((2.2, 2), 0.28, color=l1_color, zorder=3))
+    ax_d.text(2.2, 2, label_l1, ha='center', va='center', color='#ffffff', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_d.add_patch(patches.Circle((3.4, 2), 0.28, color=l2_color, zorder=3))
+    ax_d.text(3.4, 2, label_l2, ha='center', va='center', color='#ffffff', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_d.add_patch(patches.Circle((4.6, 2), 0.28, color=l3_color, zorder=3))
+    ax_d.text(4.6, 2, label_l3, ha='center', va='center', color='#ffffff', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_d.add_patch(patches.RegularPolygon(xy=(5.8, 2), numVertices=5, radius=0.35, color=origin_color, zorder=3))
+    ax_d.text(5.8, 2, label_origin, ha='center', va='center', color='#000000', fontsize=9, fontweight='bold', zorder=4)
+    
+    ax_d.annotate('', xy=(1.92, 2), xytext=(1.28, 2), arrowprops=dict(arrowstyle="->", color='#8b949e', lw=2))
+    ax_d.annotate('', xy=(3.12, 2), xytext=(2.48, 2), arrowprops=dict(arrowstyle="->", color='#a29bfe', lw=2, linestyle='-'))
+    ax_d.annotate('', xy=(4.32, 2), xytext=(3.68, 2), arrowprops=dict(arrowstyle="->", color='#74b9ff', lw=2, linestyle='-'))
+    ax_d.annotate('', xy=(5.5, 2), xytext=(4.88, 2), arrowprops=dict(arrowstyle="->", color='#ff7675', lw=2, linestyle='-'))
+    
+    if is_ko:
+        ax_d.text(1.6, 2.15, "1. 로컬 요청", color='#8b949e', fontsize=7.5, ha='center')
+        ax_d.text(2.8, 2.15, "2. L1 미스 시\nL2 전달", color='#a29bfe', fontsize=7.5, ha='center')
+        ax_d.text(4.0, 2.15, "3. L2 미스 시\nL3 전달", color='#74b9ff', fontsize=7.5, ha='center')
+        ax_d.text(5.2, 2.15, "4. L3 미스 시\n최종 오리진", color='#ff7675', fontsize=7.5, ha='center')
+    else:
+        ax_d.text(1.6, 2.15, "1. Local Req", color='#8b949e', fontsize=7.5, ha='center')
+        ax_d.text(2.8, 2.15, "2. L1 Miss\nForward to L2", color='#a29bfe', fontsize=7.5, ha='center')
+        ax_d.text(4.0, 2.15, "3. L2 Miss\nForward to L3", color='#74b9ff', fontsize=7.5, ha='center')
+        ax_d.text(5.2, 2.15, "4. L3 Miss\nFetch Origin", color='#ff7675', fontsize=7.5, ha='center')
+
+    ax_d.text(0.7, 0.2, desc_depth, fontsize=10, color='#c9d1d9', va='top', ha='left',
+              bbox=dict(boxstyle='round,pad=0.5', facecolor='#161b22', edgecolor='#30363d', alpha=0.8))
+              
+    ax_d.set_xlim(0.3, 6.5)
+    ax_d.set_ylim(-0.2, 3.6)
+    ax_d.axis('off')
+    
+    depth_path = f'/home/donghwi/cloud_network_project/korea_cdn_topology_depth_{lang}.png'
+    plt.savefig(depth_path, dpi=300, facecolor=bg_color, bbox_inches='tight')
+    plt.close(fig_d)
+    print(f"-> 개별 Depth개념도({lang}) 저장 완료: {depth_path}")
+
 # 다이어그램 생성
 draw_diagram('ko')
 draw_diagram('en')
@@ -181,4 +289,10 @@ artifact_dir = '/home/donghwi/.gemini/antigravity-cli/brain/21aedd55-43a5-420e-b
 if os.path.exists(artifact_dir):
     shutil.copy('/home/donghwi/cloud_network_project/korea_cdn_topology_ko.png', os.path.join(artifact_dir, 'korea_cdn_topology_ko.png'))
     shutil.copy('/home/donghwi/cloud_network_project/korea_cdn_topology_en.png', os.path.join(artifact_dir, 'korea_cdn_topology_en.png'))
-    print("-> Artifacts 디렉토리에 다이어그램 복사 완료!")
+    
+    # 개별 분할 개념도 복사
+    for lang in ['ko', 'en']:
+        shutil.copy(f'/home/donghwi/cloud_network_project/korea_cdn_topology_width_{lang}.png', os.path.join(artifact_dir, f'korea_cdn_topology_width_{lang}.png'))
+        shutil.copy(f'/home/donghwi/cloud_network_project/korea_cdn_topology_depth_{lang}.png', os.path.join(artifact_dir, f'korea_cdn_topology_depth_{lang}.png'))
+        
+    print("-> Artifacts 디렉토리에 모든 개념 다이어그램 복사 완료!")

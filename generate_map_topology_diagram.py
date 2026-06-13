@@ -293,6 +293,75 @@ def draw_map_topology(lang='ko'):
     plt.close()
     print(f"-> 지리 토폴로지 연결도({lang}) 저장 완료: {output_path}")
 
+    # --- 1-1. Width 지형도 단독 저장 ---
+    fig_w, ax_w_single = plt.subplots(figsize=(8, 8))
+    fig_w.patch.set_facecolor(bg_color)
+    ax_w_single.set_facecolor(bg_color)
+    ax_w_single.set_title(titles["width"], fontsize=13, fontweight='bold', color=text_color, pad=10)
+    ax_w_single.scatter(all_lons, all_lats, color=map_dot_color, s=1.0, alpha=0.3, zorder=1)
+    ax_w_single.scatter(origin_coords[1], origin_coords[0], color=origin_color, marker='*', s=150, edgecolor='#ffffff', linewidth=1.0, zorder=5)
+    ax_w_single.text(origin_coords[1] - 0.1, origin_coords[0] + 0.15, titles["origin"], color=origin_color, fontsize=9, fontweight='bold', ha='right', zorder=6)
+    
+    for idx, path in enumerate(target_paths):
+        w_type = width_types[idx]
+        c_coords = path["client"]
+        target_coords = path[w_type["level"].lower()]
+        
+        ax_w_single.scatter(c_coords[1], c_coords[0], color=client_color, s=40, edgecolor='white', linewidth=0.5, zorder=4)
+        ax_w_single.text(c_coords[1] + 0.08, c_coords[0] - 0.08, path["label_ko" if is_ko else "label_en"], color=text_color, fontsize=8, fontweight='bold', zorder=5)
+        ax_w_single.scatter(target_coords[1], target_coords[0], color=w_type["color"], s=60, marker='s' if w_type["level"]=="L3" else '^' if w_type["level"]=="L2" else 'o', edgecolor='white', linewidth=0.5, zorder=4)
+        ax_w_single.plot([c_coords[1], target_coords[1]], [c_coords[0], target_coords[0]], color='#8b949e', lw=1.5, zorder=2)
+        ax_w_single.plot([target_coords[1], origin_coords[1]], [target_coords[0], origin_coords[0]], color='#ff7675', lw=1.5, linestyle='--', zorder=2)
+        mid_x = (c_coords[1] + target_coords[1]) / 2
+        mid_y = (c_coords[0] + target_coords[0]) / 2
+        label_text = f"{w_type['name']}"
+        ax_w_single.text(mid_x, mid_y + 0.05, label_text, color=w_type["color"], fontsize=7.5, fontweight='bold', ha='center', zorder=5)
+        
+    ax_w_single.set_xlim(124.2, 131.2)
+    ax_w_single.set_ylim(32.8, 38.8)
+    ax_w_single.axis('off')
+    
+    width_map_path = f'/home/donghwi/cloud_network_project/korea_cdn_map_topology_width_{lang}.png'
+    plt.savefig(width_map_path, dpi=300, facecolor=bg_color, bbox_inches='tight')
+    plt.close(fig_w)
+    print(f"-> 개별 Width지형도({lang}) 저장 완료: {width_map_path}")
+
+    # --- 1-2. Depth 지형도 단독 저장 ---
+    fig_d, ax_d_single = plt.subplots(figsize=(8, 8))
+    fig_d.patch.set_facecolor(bg_color)
+    ax_d_single.set_facecolor(bg_color)
+    ax_d_single.set_title(titles["depth"], fontsize=13, fontweight='bold', color=text_color, pad=10)
+    ax_d_single.scatter(all_lons, all_lats, color=map_dot_color, s=1.0, alpha=0.3, zorder=1)
+    ax_d_single.scatter(origin_coords[1], origin_coords[0], color=origin_color, marker='*', s=150, edgecolor='#ffffff', linewidth=1.0, zorder=5)
+    ax_d_single.text(origin_coords[1] - 0.1, origin_coords[0] + 0.15, titles["origin"], color=origin_color, fontsize=9, fontweight='bold', ha='right', zorder=6)
+    
+    for path in target_paths:
+        c_coords = path["client"]
+        l1_coords = path["l1"]
+        l2_coords = path["l2"]
+        l3_coords = path["l3"]
+        
+        ax_d_single.scatter(c_coords[1], c_coords[0], color=client_color, s=40, edgecolor='white', linewidth=0.5, zorder=4)
+        ax_d_single.text(c_coords[1] + 0.08, c_coords[0] - 0.08, path["label_ko" if is_ko else "label_en"], color=text_color, fontsize=8, fontweight='bold', zorder=5)
+        ax_d_single.scatter(l1_coords[1], l1_coords[0], color=l1_color, s=45, marker='o', edgecolor='white', linewidth=0.5, zorder=4)
+        ax_d_single.scatter(l2_coords[1], l2_coords[0], color=l2_color, s=50, marker='^', edgecolor='white', linewidth=0.5, zorder=4)
+        ax_d_single.scatter(l3_coords[1], l3_coords[0], color=l3_color, s=60, marker='s', edgecolor='white', linewidth=0.5, zorder=4)
+        
+        ax_d_single.plot([c_coords[1], l1_coords[1]], [c_coords[0], l1_coords[0]], color=client_color, lw=1.2, zorder=2)
+        ax_d_single.plot([l1_coords[1], l2_coords[1]], [l1_coords[0], l2_coords[0]], color='#a29bfe', lw=1.5, zorder=2)
+        ax_d_single.plot([l2_coords[1], l3_coords[1]], [l2_coords[0], l3_coords[0]], color='#74b9ff', lw=1.8, zorder=2)
+        ax_d_single.plot([l3_coords[1], origin_coords[1]], [l3_coords[0], origin_coords[0]], color='#ff7675', lw=2.0, zorder=2)
+        
+    ax_d_single.legend(handles=legend_elements, facecolor='#161b22', edgecolor='#30363d', labelcolor='#c9d1d9', fontsize=8.5, loc='lower right')
+    ax_d_single.set_xlim(124.2, 131.2)
+    ax_d_single.set_ylim(32.8, 38.8)
+    ax_d_single.axis('off')
+    
+    depth_map_path = f'/home/donghwi/cloud_network_project/korea_cdn_map_topology_depth_{lang}.png'
+    plt.savefig(depth_map_path, dpi=300, facecolor=bg_color, bbox_inches='tight')
+    plt.close(fig_d)
+    print(f"-> 개별 Depth지형도({lang}) 저장 완료: {depth_map_path}")
+
 # 실행
 draw_map_topology('ko')
 draw_map_topology('en')
@@ -302,4 +371,10 @@ artifact_dir = '/home/donghwi/.gemini/antigravity-cli/brain/21aedd55-43a5-420e-b
 if os.path.exists(artifact_dir):
     shutil.copy('/home/donghwi/cloud_network_project/korea_cdn_map_topology_ko.png', os.path.join(artifact_dir, 'korea_cdn_map_topology_ko.png'))
     shutil.copy('/home/donghwi/cloud_network_project/korea_cdn_map_topology_en.png', os.path.join(artifact_dir, 'korea_cdn_map_topology_en.png'))
-    print("-> Artifacts 디렉토리에 지리 다이어그램 복사 완료!")
+    
+    # 개별 분할 지형도 복사
+    for lang in ['ko', 'en']:
+        shutil.copy(f'/home/donghwi/cloud_network_project/korea_cdn_map_topology_width_{lang}.png', os.path.join(artifact_dir, f'korea_cdn_map_topology_width_{lang}.png'))
+        shutil.copy(f'/home/donghwi/cloud_network_project/korea_cdn_map_topology_depth_{lang}.png', os.path.join(artifact_dir, f'korea_cdn_map_topology_depth_{lang}.png'))
+        
+    print("-> Artifacts 디렉토리에 모든 지리 다이어그램 복사 완료!")

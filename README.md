@@ -58,6 +58,11 @@
 ├── korea_cdn_interactive_map.html         # Leaflet.js 기반 한/영 실시간 다국어 전환 지원 인터랙티브 지도 대시보드
 ├── korea_cdn_map.png                      # 종합 지오 토폴로지 지리 성능 맵 (대표-한글판)
 ├── korea_cdn_result.png                   # 종합 성능 비교 결과 4분할 그래프 (대표-한글판)
+├── Cloud_Networking_Final_Report          # 영어/한국어 실증 논문 LaTeX 프로젝트 폴더 (IEEE Template 적용)
+│   ├── IEEE-conference-template-062824.tex # 영어 실증 논문 소스 파일 (시뮬레이션 전용)
+│   ├── IEEE-conference-template-062824_ko.tex # 한국어 실증 논문 소스 파일 (시뮬레이션 전용)
+│   ├── IEEEtran.cls                        # IEEE LaTeX 클래스 파일
+│   └── [png_files]                         # 논문에 포함된 영문 고해상도 시각화 차트들
 ├── korea_cdn_map_[strat]_[lang].png      # 각 레벨별(direct, l1, l2, l3, depth, pareto) 분할 단독 지도 이미지 (ko/en 지원)
 ├── korea_cdn_result_[metric]_[lang].png   # 각 결과 지표별(rtt_ttff, hit_offload, rebuffering, regional_rebuff) 분할 단독 그래프 이미지 (ko/en 지원)
 ├── korea_cdn_topology_[lang].png         # CDN 논리 구조 개념도 이미지 (ko/en 지원)

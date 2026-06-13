@@ -190,11 +190,14 @@ for sido in sido_keys:
                 "pop": int(sido_pop / len(dongs)),
                 "l2_id": l2_id,
                 "l3_id": sido,
-                "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [],
-                "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [],
-                "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [],
+                "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [], "latencies_list_l1_l3": [], "latencies_list_l1_l2": [], "latencies_list_l2_l3": [],
+                "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [], "ttff_list_l1_l3": [], "ttff_list_l1_l2": [], "ttff_list_l2_l3": [],
+                "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [], "rebuff_list_l1_l3": [], "rebuff_list_l1_l2": [], "rebuff_list_l2_l3": [],
                 "hits": {"l3": 0, "l2": 0, "l1": 0},
                 "depth_hits": {"l3": 0, "l2": 0, "l1": 0},
+                "l1_l3_hits": {"l1": 0, "l3": 0},
+                "l1_l2_hits": {"l1": 0, "l2": 0},
+                "l2_l3_hits": {"l2": 0, "l3": 0},
                 "total_requests": 0
             })
             valid_l1_count += 1
@@ -238,11 +241,14 @@ for sido in sido_keys:
                             "pop": max(500, int((sido_pop / len(districts)) / (len(sub_dists) * len(dongs)))),
                             "l2_id": l2_id,
                             "l3_id": sido,
-                            "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [],
-                            "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [],
-                            "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [],
+                            "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [], "latencies_list_l1_l3": [], "latencies_list_l1_l2": [], "latencies_list_l2_l3": [],
+                            "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [], "ttff_list_l1_l3": [], "ttff_list_l1_l2": [], "ttff_list_l2_l3": [],
+                            "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [], "rebuff_list_l1_l3": [], "rebuff_list_l1_l2": [], "rebuff_list_l2_l3": [],
                             "hits": {"l3": 0, "l2": 0, "l1": 0},
                             "depth_hits": {"l3": 0, "l2": 0, "l1": 0},
+                            "l1_l3_hits": {"l1": 0, "l3": 0},
+                            "l1_l2_hits": {"l1": 0, "l2": 0},
+                            "l2_l3_hits": {"l2": 0, "l3": 0},
                             "total_requests": 0
                         })
                         valid_l1_count += 1
@@ -276,11 +282,14 @@ for sido in sido_keys:
                         "pop": max(500, int((sido_pop / len(districts)) / len(dongs))),
                         "l2_id": l2_id,
                         "l3_id": sido,
-                        "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [],
-                        "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [],
-                        "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [],
+                        "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [], "latencies_list_l1_l3": [], "latencies_list_l1_l2": [], "latencies_list_l2_l3": [],
+                        "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [], "ttff_list_l1_l3": [], "ttff_list_l1_l2": [], "ttff_list_l2_l3": [],
+                        "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [], "rebuff_list_l1_l3": [], "rebuff_list_l1_l2": [], "rebuff_list_l2_l3": [],
                         "hits": {"l3": 0, "l2": 0, "l1": 0},
                         "depth_hits": {"l3": 0, "l2": 0, "l1": 0},
+                        "l1_l3_hits": {"l1": 0, "l3": 0},
+                        "l1_l2_hits": {"l1": 0, "l2": 0},
+                        "l2_l3_hits": {"l2": 0, "l3": 0},
                         "total_requests": 0
                     })
                     valid_l1_count += 1
@@ -299,6 +308,15 @@ cache_width_l1 = {l1_id: LRUCache(CAPACITY_LOCAL) for l1_id in servers_l1}
 cache_depth_l3 = {l3_id: LRUCache(CAPACITY_NATIONAL) for l3_id in servers_l3}
 cache_depth_l2 = {l2_id: LRUCache(CAPACITY_REGIONAL) for l2_id in servers_l2}
 cache_depth_l1 = {l1_id: LRUCache(CAPACITY_LOCAL) for l1_id in servers_l1}
+
+cache_l1_l3_l3 = {l3_id: LRUCache(CAPACITY_NATIONAL) for l3_id in servers_l3}
+cache_l1_l3_l1 = {l1_id: LRUCache(CAPACITY_LOCAL) for l1_id in servers_l1}
+
+cache_l1_l2_l2 = {l2_id: LRUCache(CAPACITY_REGIONAL) for l2_id in servers_l2}
+cache_l1_l2_l1 = {l1_id: LRUCache(CAPACITY_LOCAL) for l1_id in servers_l1}
+
+cache_l2_l3_l3 = {l3_id: LRUCache(CAPACITY_NATIONAL) for l3_id in servers_l3}
+cache_l2_l3_l2 = {l2_id: LRUCache(CAPACITY_REGIONAL) for l2_id in servers_l2}
 
 zipf_weights = 1.0 / (np.arange(1, CONTENT_COUNT + 1) ** ZIPF_ALPHA)
 zipf_weights /= np.sum(zipf_weights)
@@ -417,19 +435,95 @@ for i in range(NUM_REQUESTS):
     node["ttff_list_depth"].append(ttff_depth)
     node["rebuff_list_depth"].append(rebuff_depth)
     
+    # 6. l1_l3계층형 CDN (Client -> L1 -> L3 -> Origin)
+    lat_hop_l1_to_l3 = 1.0 + 0.04 * haversine_distance(l1_coords, l3_coords)
+    if cache_l1_l3_l1[l1_id].get(content_id):
+        lat_l1_l3 = lat_hop_l1
+        ttff_l1_l3 = 3.5 * lat_l1_l3 + 5.0
+        rebuff_l1_l3 = max(0.1, 0.1 + 0.08 * lat_l1_l3 + random.uniform(-0.02, 0.02))
+        node["l1_l3_hits"]["l1"] += 1
+    elif cache_l1_l3_l3[l3_id].get(content_id):
+        lat_l1_l3 = lat_hop_l1 + lat_hop_l1_to_l3
+        ttff_l1_l3 = 3.5 * lat_l1_l3 + 5.0 + 15.0
+        rebuff_l1_l3 = max(0.1, 0.3 + 0.08 * lat_l1_l3 + random.uniform(-0.05, 0.05))
+        cache_l1_l3_l1[l1_id].put(content_id)
+        node["l1_l3_hits"]["l3"] += 1
+    else:
+        lat_l1_l3 = lat_hop_l1 + lat_hop_l1_to_l3 + lat_hop_origin
+        ttff_l1_l3 = 3.5 * lat_l1_l3 + 5.0 + 15.0 + 30.0
+        rebuff_l1_l3 = max(0.1, 1.0 + 0.08 * lat_l1_l3 + random.uniform(-0.1, 0.1))
+        cache_l1_l3_l3[l3_id].put(content_id)
+        cache_l1_l3_l1[l1_id].put(content_id)
+        
+    node["latencies_list_l1_l3"].append(lat_l1_l3)
+    node["ttff_list_l1_l3"].append(ttff_l1_l3)
+    node["rebuff_list_l1_l3"].append(rebuff_l1_l3)
+
+    # 7. l1_l2계층형 CDN (Client -> L1 -> L2 -> Origin)
+    lat_hop_l2_to_origin = 3.0 + 0.04 * haversine_distance(l2_coords, origin_coords)
+    if cache_l1_l2_l1[l1_id].get(content_id):
+        lat_l1_l2 = lat_hop_l1
+        ttff_l1_l2 = 3.5 * lat_l1_l2 + 5.0
+        rebuff_l1_l2 = max(0.1, 0.1 + 0.08 * lat_l1_l2 + random.uniform(-0.02, 0.02))
+        node["l1_l2_hits"]["l1"] += 1
+    elif cache_l1_l2_l2[l2_id].get(content_id):
+        lat_l1_l2 = lat_hop_l1 + lat_hop_l2
+        ttff_l1_l2 = 3.5 * lat_l1_l2 + 5.0 + 10.0
+        rebuff_l1_l2 = max(0.1, 0.2 + 0.08 * lat_l1_l2 + random.uniform(-0.05, 0.05))
+        cache_l1_l2_l1[l1_id].put(content_id)
+        node["l1_l2_hits"]["l2"] += 1
+    else:
+        lat_l1_l2 = lat_hop_l1 + lat_hop_l2 + lat_hop_l2_to_origin
+        ttff_l1_l2 = 3.5 * lat_l1_l2 + 5.0 + 10.0 + 30.0
+        rebuff_l1_l2 = max(0.1, 1.0 + 0.08 * lat_l1_l2 + random.uniform(-0.1, 0.1))
+        cache_l1_l2_l2[l2_id].put(content_id)
+        cache_l1_l2_l1[l1_id].put(content_id)
+        
+    node["latencies_list_l1_l2"].append(lat_l1_l2)
+    node["ttff_list_l1_l2"].append(ttff_l1_l2)
+    node["rebuff_list_l1_l2"].append(rebuff_l1_l2)
+
+    # 8. l2_l3계층형 CDN (Client -> L2 -> L3 -> Origin)
+    lat_hop_l2_client = 2.0 + 0.04 * l2_dist
+    lat_hop_l2_to_l3 = 1.0 + 0.04 * haversine_distance(l2_coords, l3_coords)
+    if cache_l2_l3_l2[l2_id].get(content_id):
+        lat_l2_l3 = lat_hop_l2_client
+        ttff_l2_l3 = 3.5 * lat_l2_l3 + 10.0
+        rebuff_l2_l3 = max(0.1, 0.2 + 0.08 * lat_l2_l3 + random.uniform(-0.05, 0.05))
+        node["l2_l3_hits"]["l2"] += 1
+    elif cache_l2_l3_l3[l3_id].get(content_id):
+        lat_l2_l3 = lat_hop_l2_client + lat_hop_l2_to_l3
+        ttff_l2_l3 = 3.5 * lat_l2_l3 + 10.0 + 15.0
+        rebuff_l2_l3 = max(0.1, 0.3 + 0.08 * lat_l2_l3 + random.uniform(-0.05, 0.05))
+        cache_l2_l3_l2[l2_id].put(content_id)
+        node["l2_l3_hits"]["l3"] += 1
+    else:
+        lat_l2_l3 = lat_hop_l2_client + lat_hop_l2_to_l3 + lat_hop_origin
+        ttff_l2_l3 = 3.5 * lat_l2_l3 + 10.0 + 15.0 + 30.0
+        rebuff_l2_l3 = max(0.1, 1.0 + 0.08 * lat_l2_l3 + random.uniform(-0.1, 0.1))
+        cache_l2_l3_l3[l3_id].put(content_id)
+        cache_l2_l3_l2[l2_id].put(content_id)
+        
+    node["latencies_list_l2_l3"].append(lat_l2_l3)
+    node["ttff_list_l2_l3"].append(ttff_l2_l3)
+    node["rebuff_list_l2_l3"].append(rebuff_l2_l3)
+    
     node["total_requests"] += 1
 
 # --- 결과 요약 데이터 생성 ---
 print("3단계: 시뮬레이션 결과 데이터 요약 및 시각화 준비...")
-total_lats = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0}
-total_ttffs = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0}
-total_rebuffs = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0}
+total_lats = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0, "l1_l3": 0, "l1_l2": 0, "l2_l3": 0}
+total_ttffs = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0, "l1_l3": 0, "l1_l2": 0, "l2_l3": 0}
+total_rebuffs = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0, "l1_l3": 0, "l1_l2": 0, "l2_l3": 0}
 total_hits = {"l3": 0, "l2": 0, "l1": 0}
 total_depth_hits = {"l3": 0, "l2": 0, "l1": 0}
+total_l1_l3_hits = {"l3": 0, "l1": 0}
+total_l1_l2_hits = {"l2": 0, "l1": 0}
+total_l2_l3_hits = {"l3": 0, "l2": 0}
 total_req_count = 0
 
-regional_results = {sido: {strat: [] for strat in ["direct", "l3", "l2", "l1", "depth"]} for sido in servers_l3}
-regional_rebuffs = {sido: {strat: [] for strat in ["direct", "l3", "l2", "l1", "depth"]} for sido in servers_l3}
+regional_results = {sido: {strat: [] for strat in ["direct", "l3", "l2", "l1", "depth", "l1_l3", "l1_l2", "l2_l3"]} for sido in servers_l3}
+regional_rebuffs = {sido: {strat: [] for strat in ["direct", "l3", "l2", "l1", "depth", "l1_l3", "l1_l2", "l2_l3"]} for sido in servers_l3}
 
 for node in client_nodes:
     req_count = node["total_requests"]
@@ -440,18 +534,27 @@ for node in client_nodes:
         total_lats["l2"] += sum(node["latencies_list_l2"])
         total_lats["l1"] += sum(node["latencies_list_l1"])
         total_lats["depth"] += sum(node["latencies_list_depth"])
+        total_lats["l1_l3"] += sum(node["latencies_list_l1_l3"])
+        total_lats["l1_l2"] += sum(node["latencies_list_l1_l2"])
+        total_lats["l2_l3"] += sum(node["latencies_list_l2_l3"])
         
         total_ttffs["direct"] += sum(node["ttff_list_direct"])
         total_ttffs["l3"] += sum(node["ttff_list_l3"])
         total_ttffs["l2"] += sum(node["ttff_list_l2"])
         total_ttffs["l1"] += sum(node["ttff_list_l1"])
         total_ttffs["depth"] += sum(node["ttff_list_depth"])
+        total_ttffs["l1_l3"] += sum(node["ttff_list_l1_l3"])
+        total_ttffs["l1_l2"] += sum(node["ttff_list_l1_l2"])
+        total_ttffs["l2_l3"] += sum(node["ttff_list_l2_l3"])
         
         total_rebuffs["direct"] += sum(node["rebuff_list_direct"])
         total_rebuffs["l3"] += sum(node["rebuff_list_l3"])
         total_rebuffs["l2"] += sum(node["rebuff_list_l2"])
         total_rebuffs["l1"] += sum(node["rebuff_list_l1"])
         total_rebuffs["depth"] += sum(node["rebuff_list_depth"])
+        total_rebuffs["l1_l3"] += sum(node["rebuff_list_l1_l3"])
+        total_rebuffs["l1_l2"] += sum(node["rebuff_list_l1_l2"])
+        total_rebuffs["l2_l3"] += sum(node["rebuff_list_l2_l3"])
         
         total_hits["l3"] += node["hits"]["l3"]
         total_hits["l2"] += node["hits"]["l2"]
@@ -460,10 +563,16 @@ for node in client_nodes:
         total_depth_hits["l1"] += node["depth_hits"]["l1"]
         total_depth_hits["l2"] += node["depth_hits"]["l2"]
         total_depth_hits["l3"] += node["depth_hits"]["l3"]
+        total_l1_l3_hits["l1"] += node["l1_l3_hits"]["l1"]
+        total_l1_l3_hits["l3"] += node["l1_l3_hits"]["l3"]
+        total_l1_l2_hits["l1"] += node["l1_l2_hits"]["l1"]
+        total_l1_l2_hits["l2"] += node["l1_l2_hits"]["l2"]
+        total_l2_l3_hits["l2"] += node["l2_l3_hits"]["l2"]
+        total_l2_l3_hits["l3"] += node["l2_l3_hits"]["l3"]
         
         total_req_count += req_count
         
-        for strat in ["direct", "l3", "l2", "l1", "depth"]:
+        for strat in ["direct", "l3", "l2", "l1", "depth", "l1_l3", "l1_l2", "l2_l3"]:
             regional_results[sido][strat].extend(node[f"latencies_list_{strat}"])
             regional_rebuffs[sido][strat].extend(node[f"rebuff_list_{strat}"])
 
@@ -474,6 +583,9 @@ global_avg_latency = {
     "l2": total_lats["l2"] / total_req_count,
     "l1": total_lats["l1"] / total_req_count,
     "depth": total_lats["depth"] / total_req_count,
+    "l1_l3": total_lats["l1_l3"] / total_req_count,
+    "l1_l2": total_lats["l1_l2"] / total_req_count,
+    "l2_l3": total_lats["l2_l3"] / total_req_count,
 }
 global_avg_ttff = {
     "direct": total_ttffs["direct"] / total_req_count,
@@ -481,6 +593,9 @@ global_avg_ttff = {
     "l2": total_ttffs["l2"] / total_req_count,
     "l1": total_ttffs["l1"] / total_req_count,
     "depth": total_ttffs["depth"] / total_req_count,
+    "l1_l3": total_ttffs["l1_l3"] / total_req_count,
+    "l1_l2": total_ttffs["l1_l2"] / total_req_count,
+    "l2_l3": total_ttffs["l2_l3"] / total_req_count,
 }
 global_avg_rebuff = {
     "direct": total_rebuffs["direct"] / total_req_count,
@@ -488,6 +603,9 @@ global_avg_rebuff = {
     "l2": total_rebuffs["l2"] / total_req_count,
     "l1": total_rebuffs["l1"] / total_req_count,
     "depth": total_rebuffs["depth"] / total_req_count,
+    "l1_l3": total_rebuffs["l1_l3"] / total_req_count,
+    "l1_l2": total_rebuffs["l1_l2"] / total_req_count,
+    "l2_l3": total_rebuffs["l2_l3"] / total_req_count,
 }
 # 글로벌 캐시 적중률 및 오리진 부하 절감률 정의
 global_hit_rate = {
@@ -496,6 +614,9 @@ global_hit_rate = {
     "l2": (total_hits["l2"] / total_req_count) * 100.0,
     "l1": (total_hits["l1"] / total_req_count) * 100.0,
     "depth": ((total_depth_hits["l1"] + total_depth_hits["l2"] + total_depth_hits["l3"]) / total_req_count) * 100.0,
+    "l1_l3": ((total_l1_l3_hits["l1"] + total_l1_l3_hits["l3"]) / total_req_count) * 100.0,
+    "l1_l2": ((total_l1_l2_hits["l1"] + total_l1_l2_hits["l2"]) / total_req_count) * 100.0,
+    "l2_l3": ((total_l2_l3_hits["l2"] + total_l2_l3_hits["l3"]) / total_req_count) * 100.0,
 }
 
 cost_stats = {
@@ -503,7 +624,10 @@ cost_stats = {
     "l3": len(servers_l3) * COST_NATIONAL_NODE,
     "l2": len(servers_l2) * COST_REGIONAL_NODE,
     "l1": len(servers_l1) * COST_LOCAL_NODE,
-    "depth": (len(servers_l3) * COST_NATIONAL_NODE) + (len(servers_l2) * COST_REGIONAL_NODE) + (len(servers_l1) * COST_LOCAL_NODE)
+    "depth": (len(servers_l3) * COST_NATIONAL_NODE) + (len(servers_l2) * COST_REGIONAL_NODE) + (len(servers_l1) * COST_LOCAL_NODE),
+    "l1_l3": (len(servers_l3) * COST_NATIONAL_NODE) + (len(servers_l1) * COST_LOCAL_NODE),
+    "l1_l2": (len(servers_l2) * COST_REGIONAL_NODE) + (len(servers_l1) * COST_LOCAL_NODE),
+    "l2_l3": (len(servers_l3) * COST_NATIONAL_NODE) + (len(servers_l2) * COST_REGIONAL_NODE)
 }
 
 # --- 4단계: Matplotlib을 활용한 정밀 정적 분석 차트 생성 ---
@@ -512,7 +636,7 @@ def generate_charts(lang='ko'):
     print(f"4단계: Matplotlib 기반 대한민국 지리/통계 그래프 ({lang}) 생성 중...")
     
     # 4-1단계: Matplotlib 기반 대한민국 지리 성능 격차 맵 생성
-    fig, axs = plt.subplots(2, 3, figsize=(18, 12))
+    fig, axs = plt.subplots(3, 3, figsize=(18, 18))
     
     if is_ko:
         strategies = [
@@ -520,12 +644,15 @@ def generate_charts(lang='ko'):
             ("l3", "L3 에지 CDN (시/도 단위 - Width)", axs[0, 1]),
             ("l2", "L2 에지 CDN (시/군/구 단위 - Width)", axs[0, 2]),
             ("l1", "L1 에지 CDN (읍/면/동 단위 - Width)", axs[1, 0]),
-            ("depth", "계층형 멀티티어 CDN (Depth)", axs[1, 1])
+            ("depth", "계층형 멀티티어 CDN (Depth)", axs[1, 1]),
+            ("l1_l3", "계층형 CDN (L1 -> L3)", axs[1, 2]),
+            ("l1_l2", "계층형 CDN (L1 -> L2)", axs[2, 0]),
+            ("l2_l3", "계층형 CDN (L2 -> L3)", axs[2, 1]),
         ]
         pareto_title = "구축 비용 대비 RTT 성능 Pareto Frontier"
         pareto_xlabel = "구축 투자 비용 (억 원)"
         pareto_ylabel = "평균 응답 속도 (ms)"
-        pareto_labels = ["Direct", "L3 에지", "L2 에지", "L1 에지", "Depth 계층"]
+        pareto_labels = ["Direct", "L3 에지", "L2 에지", "L2->L3 계층", "L1 에지", "L1->L3 계층", "L1->L2 계층", "Depth 계층"]
         main_title = "대한민국 계층형 CDN 6,487개 행정동 지리적 성능 격차 실증 분석"
         colorbar_label = '평균 응답 지연 시간 (Latency RTT ms) | 녹색(우수) <----> 적색(지연)'
     else:
@@ -534,12 +661,15 @@ def generate_charts(lang='ko'):
             ("l3", "L3 Edge CDN (Provincial - Width)", axs[0, 1]),
             ("l2", "L2 Edge CDN (Municipal - Width)", axs[0, 2]),
             ("l1", "L1 Edge CDN (Local Town - Width)", axs[1, 0]),
-            ("depth", "Hierarchical CDN (Depth)", axs[1, 1])
+            ("depth", "Hierarchical CDN (Depth)", axs[1, 1]),
+            ("l1_l3", "Hierarchical CDN (L1 -> L3)", axs[1, 2]),
+            ("l1_l2", "Hierarchical CDN (L1 -> L2)", axs[2, 0]),
+            ("l2_l3", "Hierarchical CDN (L2 -> L3)", axs[2, 1]),
         ]
         pareto_title = "RTT Latency vs Deployment Cost Pareto Frontier"
         pareto_xlabel = "Deployment Investment Cost (100M KRW)"
         pareto_ylabel = "Avg Response Time (ms)"
-        pareto_labels = ["Direct", "L3 Edge", "L2 Edge", "L1 Edge", "Depth Tier"]
+        pareto_labels = ["Direct", "L3 Edge", "L2 Edge", "L2->L3 Tier", "L1 Edge", "L1->L3 Tier", "L1->L2 Tier", "Depth Tier"]
         main_title = "Geographical CDN Latency Gap Analysis across 6,487 Towns in South Korea"
         colorbar_label = 'Avg Round Trip Time (Latency RTT ms) | Green (Fast) <----> Red (Slow)'
 
@@ -581,6 +711,21 @@ def generate_charts(lang='ko'):
             l2_lats = [v["coords"][0] for v in servers_l2.values()]
             ax.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=45, edgecolor='#ffffff', linewidth=0.5, zorder=4)
             ax.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=25, edgecolor='#ffffff', linewidth=0.4, zorder=4)
+        elif strat_id == "l1_l3":
+            l3_lons = [v["coords"][1] for v in servers_l3.values()]
+            l3_lats = [v["coords"][0] for v in servers_l3.values()]
+            ax.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=45, edgecolor='#ffffff', linewidth=0.5, zorder=4)
+        elif strat_id == "l1_l2":
+            l2_lons = [v["coords"][1] for v in servers_l2.values()]
+            l2_lats = [v["coords"][0] for v in servers_l2.values()]
+            ax.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=25, edgecolor='#ffffff', linewidth=0.4, zorder=4)
+        elif strat_id == "l2_l3":
+            l3_lons = [v["coords"][1] for v in servers_l3.values()]
+            l3_lats = [v["coords"][0] for v in servers_l3.values()]
+            l2_lons = [v["coords"][1] for v in servers_l2.values()]
+            l2_lats = [v["coords"][0] for v in servers_l2.values()]
+            ax.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=45, edgecolor='#ffffff', linewidth=0.5, zorder=4)
+            ax.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=25, edgecolor='#ffffff', linewidth=0.4, zorder=4)
             
         ax.scatter(origin_coords[1], origin_coords[0], color='#f1c40f', marker='*', s=150, edgecolor='#ffffff', linewidth=1.0, zorder=5)
         
@@ -595,11 +740,13 @@ def generate_charts(lang='ko'):
     ax_eff.set_facecolor('#0c1017')
     ax_eff.set_title(pareto_title, fontsize=12, fontweight='bold', color='#f0f6fc', pad=10)
 
-    costs = [cost_stats[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
-    lats = [global_avg_latency[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
-    colors_eff = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f1c40f']
+    # Sorted by cost: direct(0), l3(2040), l2(6250), l2_l3(8290), l1(32435), l1_l3(34475), l1_l2(38685), depth(40725)
+    pareto_strats = ["direct", "l3", "l2", "l2_l3", "l1", "l1_l3", "l1_l2", "depth"]
+    costs = [cost_stats[s] for s in pareto_strats]
+    lats = [global_avg_latency[s] for s in pareto_strats]
+    colors_eff = ['#e74c3c', '#3498db', '#2ecc71', '#95a5a6', '#9b59b6', '#e67e22', '#1abc9c', '#f1c40f']
 
-    for k in range(5):
+    for k in range(len(pareto_strats)):
         ax_eff.scatter(costs[k], lats[k], color=colors_eff[k], s=120, edgecolor='white', linewidth=1.0, zorder=3, label=pareto_labels[k])
         ax_eff.text(costs[k] + 150, lats[k] + 0.1, pareto_labels[k], fontsize=9, color='#c9d1d9', fontweight='semibold')
 
@@ -613,9 +760,9 @@ def generate_charts(lang='ko'):
 
     plt.suptitle(main_title, fontsize=16, fontweight='bold', color='#ffffff', y=0.96)
     plt.tight_layout()
-    fig.subplots_adjust(top=0.90, bottom=0.08)
+    fig.subplots_adjust(top=0.92, bottom=0.06)
 
-    cbar_ax = fig.add_axes([0.15, 0.04, 0.7, 0.015])
+    cbar_ax = fig.add_axes([0.15, 0.02, 0.7, 0.012])
     cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cbar_ax, orientation='horizontal')
     cb.set_label(colorbar_label, fontsize=11, fontweight='bold', labelpad=5, color='#ffffff')
     cb.ax.tick_params(labelsize=9, colors='#ffffff')
@@ -656,6 +803,21 @@ def generate_charts(lang='ko'):
             l2_lats = [v["coords"][0] for v in servers_l2.values()]
             ax_single.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=80, edgecolor='#ffffff', linewidth=0.8, zorder=4)
             ax_single.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=50, edgecolor='#ffffff', linewidth=0.6, zorder=4)
+        elif strat_id == "l1_l3":
+            l3_lons = [v["coords"][1] for v in servers_l3.values()]
+            l3_lats = [v["coords"][0] for v in servers_l3.values()]
+            ax_single.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=80, edgecolor='#ffffff', linewidth=0.8, zorder=4)
+        elif strat_id == "l1_l2":
+            l2_lons = [v["coords"][1] for v in servers_l2.values()]
+            l2_lats = [v["coords"][0] for v in servers_l2.values()]
+            ax_single.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=50, edgecolor='#ffffff', linewidth=0.6, zorder=4)
+        elif strat_id == "l2_l3":
+            l3_lons = [v["coords"][1] for v in servers_l3.values()]
+            l3_lats = [v["coords"][0] for v in servers_l3.values()]
+            l2_lons = [v["coords"][1] for v in servers_l2.values()]
+            l2_lats = [v["coords"][0] for v in servers_l2.values()]
+            ax_single.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=80, edgecolor='#ffffff', linewidth=0.8, zorder=4)
+            ax_single.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=50, edgecolor='#ffffff', linewidth=0.6, zorder=4)
             
         ax_single.scatter(origin_coords[1], origin_coords[0], color='#f1c40f', marker='*', s=200, edgecolor='#ffffff', linewidth=1.2, zorder=5)
         
@@ -680,7 +842,7 @@ def generate_charts(lang='ko'):
     fig_pareto, ax_pareto = plt.subplots(figsize=(8, 6))
     ax_pareto.set_facecolor('#0c1017')
     ax_pareto.set_title(pareto_title, fontsize=14, fontweight='bold', color='#f0f6fc', pad=10)
-    for k in range(5):
+    for k in range(len(pareto_strats)):
         ax_pareto.scatter(costs[k], lats[k], color=colors_eff[k], s=180, edgecolor='white', linewidth=1.2, zorder=3, label=pareto_labels[k])
         ax_pareto.text(costs[k] + 150, lats[k] + 0.1, pareto_labels[k], fontsize=10, color='#c9d1d9', fontweight='semibold')
     ax_pareto.plot(costs, lats, color='#444d56', linestyle='--', linewidth=2.0, zorder=2)
@@ -706,22 +868,23 @@ def generate_charts(lang='ko'):
     ax.set_facecolor('#0c1017')
     if is_ko:
         ax.set_title("아키텍처별 평균 RTT 및 TTFF 비교", fontsize=12, fontweight='bold', color='#f0f6fc')
-        names = ["Direct", "L3 에지", "L2 에지", "L1 에지", "Depth 계층"]
+        names = ["Direct", "L3 에지", "L2 에지", "L1 에지", "L2->L3", "L1->L3", "L1->L2", "Depth"]
         rtt_label = 'RTT (좌축)'
         ttff_label = 'TTFF (우축)'
         ylabel_rtt = "평균 응답 속도 RTT (ms)"
         ylabel_ttff = "첫 프레임 재생 시간 TTFF (ms)"
     else:
         ax.set_title("Average RTT and TTFF by Architecture", fontsize=12, fontweight='bold', color='#f0f6fc')
-        names = ["Direct", "L3 Edge", "L2 Edge", "L1 Edge", "Depth Tier"]
+        names = ["Direct", "L3 Edge", "L2 Edge", "L1 Edge", "L2->L3", "L1->L3", "L1->L2", "Depth"]
         rtt_label = 'RTT (Left)'
         ttff_label = 'TTFF (Right)'
         ylabel_rtt = "Average Round Trip Time RTT (ms)"
         ylabel_ttff = "Time to First Frame TTFF (ms)"
         
-    avg_lats = [global_avg_latency[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
-    avg_ttffs = [global_avg_ttff[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
-    colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f1c40f']
+    names_id = ["direct", "l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]
+    avg_lats = [global_avg_latency[s] for s in names_id]
+    avg_ttffs = [global_avg_ttff[s] for s in names_id]
+    colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#95a5a6', '#e67e22', '#1abc9c', '#f1c40f']
 
     x_indexes = np.arange(len(names))
     width = 0.35
@@ -764,8 +927,9 @@ def generate_charts(lang='ko'):
         offload_label = 'Origin Offload Rate'
         ylabel_ratio = "Ratio (%)"
 
-    hit_rates = [global_hit_rate[s] for s in ["l3", "l2", "l1", "depth"]]
-    offload_rates = [global_hit_rate[s] for s in ["l3", "l2", "l1", "depth"]]
+    names_hit_id = ["l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]
+    hit_rates = [global_hit_rate[s] for s in names_hit_id]
+    offload_rates = [global_hit_rate[s] for s in names_hit_id]
 
     x_indexes_hit = np.arange(len(names[1:]))
     width_hit = 0.35
@@ -800,7 +964,7 @@ def generate_charts(lang='ko'):
         ax.set_title("Average Re-buffering Ratio by Architecture", fontsize=12, fontweight='bold', color='#f0f6fc')
         ylabel_rebuff = "Average Re-buffering Ratio (%)"
 
-    avg_rebuffs = [global_avg_rebuff[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
+    avg_rebuffs = [global_avg_rebuff[s] for s in ["direct", "l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]]
     rects_reb = ax.bar(names, avg_rebuffs, color=colors, edgecolor='#2f3640', width=0.45, zorder=3)
     ax.set_ylabel(ylabel_rebuff, color='#8b949e')
     ax.tick_params(colors='#8b949e', labelsize=10)
@@ -828,9 +992,10 @@ def generate_charts(lang='ko'):
     x_indexes_city = np.arange(len(target_cities))
     width_city = 0.15
 
-    for idx, strat in enumerate(["direct", "l3", "l2", "l1", "depth"]):
+    width_city = 0.09
+    for idx, strat in enumerate(["direct", "l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]):
         avg_vals = [np.mean(regional_rebuffs[c][strat]) if len(regional_rebuffs[c][strat]) > 0 else 0 for c in target_cities]
-        ax.bar(x_indexes_city + (idx - 2) * width_city, avg_vals, width_city, label=names[idx], color=colors[idx], edgecolor='#2f3640')
+        ax.bar(x_indexes_city + (idx - 3.5) * width_city, avg_vals, width_city, label=names[idx], color=colors[idx], edgecolor='#2f3640')
 
     ax.set_xticks(x_indexes_city)
     ax.set_xticklabels(city_labels)
@@ -964,9 +1129,10 @@ def generate_charts(lang='ko'):
         ax4.set_title("Average Re-buffering Ratio by Major Regions", fontsize=14, fontweight='bold', color='#f0f6fc')
         ylabel_city = "Average Re-buffering Ratio (%)"
 
-    for idx, strat in enumerate(["direct", "l3", "l2", "l1", "depth"]):
+    width_city = 0.09
+    for idx, strat in enumerate(["direct", "l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]):
         avg_vals = [np.mean(regional_rebuffs[c][strat]) if len(regional_rebuffs[c][strat]) > 0 else 0 for c in target_cities]
-        ax4.bar(x_indexes_city + (idx - 2) * width_city, avg_vals, width_city, label=names[idx], color=colors[idx], edgecolor='#2f3640')
+        ax4.bar(x_indexes_city + (idx - 3.5) * width_city, avg_vals, width_city, label=names[idx], color=colors[idx], edgecolor='#2f3640')
     ax4.set_xticks(x_indexes_city)
     ax4.set_xticklabels(city_labels)
     ax4.set_ylabel(ylabel_city, color='#8b949e')
@@ -1003,7 +1169,7 @@ if os.path.exists(artifact_dir):
     # 개별 분할 이미지들 복사 (한글/영어 모두)
     for lang in ['ko', 'en']:
         # 개별 지도 복사
-        for strat in ['direct', 'l3', 'l2', 'l1', 'depth']:
+        for strat in ['direct', 'l3', 'l2', 'l1', 'depth', 'l1_l3', 'l1_l2', 'l2_l3']:
             map_name = f'korea_cdn_map_{strat}_{lang}.png'
             src_map = os.path.join('/home/donghwi/cloud_network_project', map_name)
             if os.path.exists(src_map):

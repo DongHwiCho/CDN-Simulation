@@ -192,11 +192,14 @@ for sido in sido_keys:
                 "pop": int(sido_pop / len(dongs)),
                 "l2_id": l2_id,
                 "l3_id": sido,
-                "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [],
-                "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [],
-                "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [],
+                "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [], "latencies_list_l1_l3": [], "latencies_list_l1_l2": [], "latencies_list_l2_l3": [],
+                "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [], "ttff_list_l1_l3": [], "ttff_list_l1_l2": [], "ttff_list_l2_l3": [],
+                "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [], "rebuff_list_l1_l3": [], "rebuff_list_l1_l2": [], "rebuff_list_l2_l3": [],
                 "hits": {"l3": 0, "l2": 0, "l1": 0},
                 "depth_hits": {"l3": 0, "l2": 0, "l1": 0},
+                "l1_l3_hits": {"l1": 0, "l3": 0},
+                "l1_l2_hits": {"l1": 0, "l2": 0},
+                "l2_l3_hits": {"l2": 0, "l3": 0},
                 "total_requests": 0
             })
             valid_l1_count += 1
@@ -240,11 +243,14 @@ for sido in sido_keys:
                             "pop": max(500, int((sido_pop / len(districts)) / (len(sub_dists) * len(dongs)))),
                             "l2_id": l2_id,
                             "l3_id": sido,
-                            "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [],
-                            "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [],
-                            "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [],
+                            "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [], "latencies_list_l1_l3": [], "latencies_list_l1_l2": [], "latencies_list_l2_l3": [],
+                            "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [], "ttff_list_l1_l3": [], "ttff_list_l1_l2": [], "ttff_list_l2_l3": [],
+                            "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [], "rebuff_list_l1_l3": [], "rebuff_list_l1_l2": [], "rebuff_list_l2_l3": [],
                             "hits": {"l3": 0, "l2": 0, "l1": 0},
                             "depth_hits": {"l3": 0, "l2": 0, "l1": 0},
+                            "l1_l3_hits": {"l1": 0, "l3": 0},
+                            "l1_l2_hits": {"l1": 0, "l2": 0},
+                            "l2_l3_hits": {"l2": 0, "l3": 0},
                             "total_requests": 0
                         })
                         valid_l1_count += 1
@@ -278,11 +284,14 @@ for sido in sido_keys:
                         "pop": max(500, int((sido_pop / len(districts)) / len(dongs))),
                         "l2_id": l2_id,
                         "l3_id": sido,
-                        "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [],
-                        "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [],
-                        "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [],
+                        "latencies_list_direct": [], "latencies_list_l3": [], "latencies_list_l2": [], "latencies_list_l1": [], "latencies_list_depth": [], "latencies_list_l1_l3": [], "latencies_list_l1_l2": [], "latencies_list_l2_l3": [],
+                        "ttff_list_direct": [], "ttff_list_l3": [], "ttff_list_l2": [], "ttff_list_l1": [], "ttff_list_depth": [], "ttff_list_l1_l3": [], "ttff_list_l1_l2": [], "ttff_list_l2_l3": [],
+                        "rebuff_list_direct": [], "rebuff_list_l3": [], "rebuff_list_l2": [], "rebuff_list_l1": [], "rebuff_list_depth": [], "rebuff_list_l1_l3": [], "rebuff_list_l1_l2": [], "rebuff_list_l2_l3": [],
                         "hits": {"l3": 0, "l2": 0, "l1": 0},
                         "depth_hits": {"l3": 0, "l2": 0, "l1": 0},
+                        "l1_l3_hits": {"l1": 0, "l3": 0},
+                        "l1_l2_hits": {"l1": 0, "l2": 0},
+                        "l2_l3_hits": {"l2": 0, "l3": 0},
                         "total_requests": 0
                     })
                     valid_l1_count += 1
@@ -301,6 +310,15 @@ cache_width_l1 = {l1_id: LRUCache(CAPACITY_LOCAL) for l1_id in servers_l1}
 cache_depth_l3 = {l3_id: LRUCache(CAPACITY_NATIONAL) for l3_id in servers_l3}
 cache_depth_l2 = {l2_id: LRUCache(CAPACITY_REGIONAL) for l2_id in servers_l2}
 cache_depth_l1 = {l1_id: LRUCache(CAPACITY_LOCAL) for l1_id in servers_l1}
+
+cache_l1_l3_l3 = {l3_id: LRUCache(CAPACITY_NATIONAL) for l3_id in servers_l3}
+cache_l1_l3_l1 = {l1_id: LRUCache(CAPACITY_LOCAL) for l1_id in servers_l1}
+
+cache_l1_l2_l2 = {l2_id: LRUCache(CAPACITY_REGIONAL) for l2_id in servers_l2}
+cache_l1_l2_l1 = {l1_id: LRUCache(CAPACITY_LOCAL) for l1_id in servers_l1}
+
+cache_l2_l3_l3 = {l3_id: LRUCache(CAPACITY_NATIONAL) for l3_id in servers_l3}
+cache_l2_l3_l2 = {l2_id: LRUCache(CAPACITY_REGIONAL) for l2_id in servers_l2}
 
 zipf_weights = 1.0 / (np.arange(1, CONTENT_COUNT + 1) ** ZIPF_ALPHA)
 zipf_weights /= np.sum(zipf_weights)
@@ -429,63 +447,166 @@ for i in range(NUM_REQUESTS):
     node["ttff_list_depth"].append(ttff_depth)
     node["rebuff_list_depth"].append(rebuff_depth)
     
+    # 6. l1_l3계층형 CDN (Client -> L1 -> L3 -> Origin)
+    lat_hop_l1_to_l3 = 1.0 + 0.04 * haversine_distance(l1_coords, l3_coords)
+    if cache_l1_l3_l1[l1_id].get(content_id):
+        lat_l1_l3 = lat_hop_l1
+        ttff_l1_l3 = 3.5 * lat_l1_l3 + 5.0
+        rebuff_l1_l3 = max(0.1, 0.1 + 0.08 * lat_l1_l3 + random.uniform(-0.02, 0.02))
+        node["l1_l3_hits"]["l1"] += 1
+    elif cache_l1_l3_l3[l3_id].get(content_id):
+        lat_l1_l3 = lat_hop_l1 + lat_hop_l1_to_l3
+        ttff_l1_l3 = 3.5 * lat_l1_l3 + 5.0 + 15.0
+        rebuff_l1_l3 = max(0.1, 0.3 + 0.08 * lat_l1_l3 + random.uniform(-0.05, 0.05))
+        cache_l1_l3_l1[l1_id].put(content_id)
+        node["l1_l3_hits"]["l3"] += 1
+    else:
+        lat_l1_l3 = lat_hop_l1 + lat_hop_l1_to_l3 + lat_hop_origin
+        ttff_l1_l3 = 3.5 * lat_l1_l3 + 5.0 + 15.0 + 30.0
+        rebuff_l1_l3 = max(0.1, 1.0 + 0.08 * lat_l1_l3 + random.uniform(-0.1, 0.1))
+        cache_l1_l3_l3[l3_id].put(content_id)
+        cache_l1_l3_l1[l1_id].put(content_id)
+        
+    node["latencies_list_l1_l3"].append(lat_l1_l3)
+    node["ttff_list_l1_l3"].append(ttff_l1_l3)
+    node["rebuff_list_l1_l3"].append(rebuff_l1_l3)
+
+    # 7. l1_l2계층형 CDN (Client -> L1 -> L2 -> Origin)
+    lat_hop_l2_to_origin = 3.0 + 0.04 * haversine_distance(l2_coords, origin_coords)
+    if cache_l1_l2_l1[l1_id].get(content_id):
+        lat_l1_l2 = lat_hop_l1
+        ttff_l1_l2 = 3.5 * lat_l1_l2 + 5.0
+        rebuff_l1_l2 = max(0.1, 0.1 + 0.08 * lat_l1_l2 + random.uniform(-0.02, 0.02))
+        node["l1_l2_hits"]["l1"] += 1
+    elif cache_l1_l2_l2[l2_id].get(content_id):
+        lat_l1_l2 = lat_hop_l1 + lat_hop_l2
+        ttff_l1_l2 = 3.5 * lat_l1_l2 + 5.0 + 10.0
+        rebuff_l1_l2 = max(0.1, 0.2 + 0.08 * lat_l1_l2 + random.uniform(-0.05, 0.05))
+        cache_l1_l2_l1[l1_id].put(content_id)
+        node["l1_l2_hits"]["l2"] += 1
+    else:
+        lat_l1_l2 = lat_hop_l1 + lat_hop_l2 + lat_hop_l2_to_origin
+        ttff_l1_l2 = 3.5 * lat_l1_l2 + 5.0 + 10.0 + 30.0
+        rebuff_l1_l2 = max(0.1, 1.0 + 0.08 * lat_l1_l2 + random.uniform(-0.1, 0.1))
+        cache_l1_l2_l2[l2_id].put(content_id)
+        cache_l1_l2_l1[l1_id].put(content_id)
+        
+    node["latencies_list_l1_l2"].append(lat_l1_l2)
+    node["ttff_list_l1_l2"].append(ttff_l1_l2)
+    node["rebuff_list_l1_l2"].append(rebuff_l1_l2)
+
+    # 8. l2_l3계층형 CDN (Client -> L2 -> L3 -> Origin)
+    lat_hop_l2_client = 2.0 + 0.04 * l2_dist
+    lat_hop_l2_to_l3 = 1.0 + 0.04 * haversine_distance(l2_coords, l3_coords)
+    if cache_l2_l3_l2[l2_id].get(content_id):
+        lat_l2_l3 = lat_hop_l2_client
+        ttff_l2_l3 = 3.5 * lat_l2_l3 + 10.0
+        rebuff_l2_l3 = max(0.1, 0.2 + 0.08 * lat_l2_l3 + random.uniform(-0.05, 0.05))
+        node["l2_l3_hits"]["l2"] += 1
+    elif cache_l2_l3_l3[l3_id].get(content_id):
+        lat_l2_l3 = lat_hop_l2_client + lat_hop_l2_to_l3
+        ttff_l2_l3 = 3.5 * lat_l2_l3 + 10.0 + 15.0
+        rebuff_l2_l3 = max(0.1, 0.3 + 0.08 * lat_l2_l3 + random.uniform(-0.05, 0.05))
+        cache_l2_l3_l2[l2_id].put(content_id)
+        node["l2_l3_hits"]["l3"] += 1
+    else:
+        lat_l2_l3 = lat_hop_l2_client + lat_hop_l2_to_l3 + lat_hop_origin
+        ttff_l2_l3 = 3.5 * lat_l2_l3 + 10.0 + 15.0 + 30.0
+        rebuff_l2_l3 = max(0.1, 1.0 + 0.08 * lat_l2_l3 + random.uniform(-0.1, 0.1))
+        cache_l2_l3_l3[l3_id].put(content_id)
+        cache_l2_l3_l2[l2_id].put(content_id)
+        
+    node["latencies_list_l2_l3"].append(lat_l2_l3)
+    node["ttff_list_l2_l3"].append(ttff_l2_l3)
+    node["rebuff_list_l2_l3"].append(rebuff_l2_l3)
+    
     node["total_requests"] += 1
 
 # --- 결과 요약 데이터 생성 ---
 print("3단계: 시뮬레이션 결과 데이터 요약 및 시각화 준비...")
 client_json_list = []
-total_lats = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0}
-total_ttffs = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0}
-total_rebuffs = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0}
+total_lats = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0, "l1_l3": 0, "l1_l2": 0, "l2_l3": 0}
+total_ttffs = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0, "l1_l3": 0, "l1_l2": 0, "l2_l3": 0}
+total_rebuffs = {"direct": 0, "l3": 0, "l2": 0, "l1": 0, "depth": 0, "l1_l3": 0, "l1_l2": 0, "l2_l3": 0}
 total_hits = {"l3": 0, "l2": 0, "l1": 0}
 total_depth_hits = {"l3": 0, "l2": 0, "l1": 0}
+total_l1_l3_hits = {"l3": 0, "l1": 0}
+total_l1_l2_hits = {"l2": 0, "l1": 0}
+total_l2_l3_hits = {"l3": 0, "l2": 0}
 total_req_count = 0
 
-regional_results = {sido: {strat: [] for strat in ["direct", "l3", "l2", "l1", "depth"]} for sido in servers_l3}
-regional_rebuffs = {sido: {strat: [] for strat in ["direct", "l3", "l2", "l1", "depth"]} for sido in servers_l3}
+regional_results = {sido: {strat: [] for strat in ["direct", "l3", "l2", "l1", "depth", "l1_l3", "l1_l2", "l2_l3"]} for sido in servers_l3}
+regional_rebuffs = {sido: {strat: [] for strat in ["direct", "l3", "l2", "l1", "depth", "l1_l3", "l1_l2", "l2_l3"]} for sido in servers_l3}
 
 for node in client_nodes:
     req_count = node["total_requests"]
     sido = node["l3_id"]
     if req_count == 0:
         node_lat_dir = 3.0 + 0.04 * haversine_distance(node["client_coords"], origin_coords)
-        latencies = {"direct": node_lat_dir, "l3": 5.0, "l2": 4.0, "l1": 3.0, "depth": 2.0}
-        ttffs = {"direct": 45.0, "l3": 35.0, "l2": 30.0, "l1": 25.0, "depth": 20.0}
-        rebuffs = {"direct": 2.0, "l3": 1.2, "l2": 1.0, "l1": 2.0, "depth": 0.5}
-        hit_rates = {"l3": 85.0, "l2": 70.0, "l1": 30.0, "depth": 85.0}
+        latencies = {"direct": node_lat_dir, "l3": 5.0, "l2": 4.0, "l1": 3.0, "depth": 2.0, "l1_l3": 2.5, "l1_l2": 2.3, "l2_l3": 3.5}
+        ttffs = {"direct": 45.0, "l3": 35.0, "l2": 30.0, "l1": 25.0, "depth": 20.0, "l1_l3": 22.0, "l1_l2": 21.0, "l2_l3": 28.0}
+        rebuffs = {"direct": 2.0, "l3": 1.2, "l2": 1.0, "l1": 2.0, "depth": 0.5, "l1_l3": 0.8, "l1_l2": 0.7, "l2_l3": 1.1}
+        hit_rates = {"l3": 85.0, "l2": 70.0, "l1": 30.0, "depth": 85.0, "l1_l3": 85.0, "l1_l2": 75.0, "l2_l3": 80.0}
         depth_hits_detail = {"l1": 0, "l2": 0, "l3": 0}
+        l1_l3_hits_detail = {"l1": 0, "l3": 0}
+        l1_l2_hits_detail = {"l1": 0, "l2": 0}
+        l2_l3_hits_detail = {"l2": 0, "l3": 0}
     else:
         latencies = {
             "direct": np.mean(node["latencies_list_direct"]),
             "l3": np.mean(node["latencies_list_l3"]),
             "l2": np.mean(node["latencies_list_l2"]),
             "l1": np.mean(node["latencies_list_l1"]),
-            "depth": np.mean(node["latencies_list_depth"])
+            "depth": np.mean(node["latencies_list_depth"]),
+            "l1_l3": np.mean(node["latencies_list_l1_l3"]),
+            "l1_l2": np.mean(node["latencies_list_l1_l2"]),
+            "l2_l3": np.mean(node["latencies_list_l2_l3"])
         }
         ttffs = {
             "direct": np.mean(node["ttff_list_direct"]),
             "l3": np.mean(node["ttff_list_l3"]),
             "l2": np.mean(node["ttff_list_l2"]),
             "l1": np.mean(node["ttff_list_l1"]),
-            "depth": np.mean(node["ttff_list_depth"])
+            "depth": np.mean(node["ttff_list_depth"]),
+            "l1_l3": np.mean(node["ttff_list_l1_l3"]),
+            "l1_l2": np.mean(node["ttff_list_l1_l2"]),
+            "l2_l3": np.mean(node["ttff_list_l2_l3"])
         }
         rebuffs = {
             "direct": np.mean(node["rebuff_list_direct"]),
             "l3": np.mean(node["rebuff_list_l3"]),
             "l2": np.mean(node["rebuff_list_l2"]),
             "l1": np.mean(node["rebuff_list_l1"]),
-            "depth": np.mean(node["rebuff_list_depth"])
+            "depth": np.mean(node["rebuff_list_depth"]),
+            "l1_l3": np.mean(node["rebuff_list_l1_l3"]),
+            "l1_l2": np.mean(node["rebuff_list_l1_l2"]),
+            "l2_l3": np.mean(node["rebuff_list_l2_l3"])
         }
         hit_rates = {
             "l3": (node["hits"]["l3"] / req_count) * 100.0,
             "l2": (node["hits"]["l2"] / req_count) * 100.0,
             "l1": (node["hits"]["l1"] / req_count) * 100.0,
-            "depth": ((node["depth_hits"]["l1"] + node["depth_hits"]["l2"] + node["depth_hits"]["l3"]) / req_count) * 100.0
+            "depth": ((node["depth_hits"]["l1"] + node["depth_hits"]["l2"] + node["depth_hits"]["l3"]) / req_count) * 100.0,
+            "l1_l3": ((node["l1_l3_hits"]["l1"] + node["l1_l3_hits"]["l3"]) / req_count) * 100.0,
+            "l1_l2": ((node["l1_l2_hits"]["l1"] + node["l1_l2_hits"]["l2"]) / req_count) * 100.0,
+            "l2_l3": ((node["l2_l3_hits"]["l2"] + node["l2_l3_hits"]["l3"]) / req_count) * 100.0
         }
         depth_hits_detail = {
             "l1": (node["depth_hits"]["l1"] / req_count * 100.0),
             "l2": (node["depth_hits"]["l2"] / req_count * 100.0),
             "l3": (node["depth_hits"]["l3"] / req_count * 100.0)
+        }
+        l1_l3_hits_detail = {
+            "l1": (node["l1_l3_hits"]["l1"] / req_count * 100.0),
+            "l3": (node["l1_l3_hits"]["l3"] / req_count * 100.0)
+        }
+        l1_l2_hits_detail = {
+            "l1": (node["l1_l2_hits"]["l1"] / req_count * 100.0),
+            "l2": (node["l1_l2_hits"]["l2"] / req_count * 100.0)
+        }
+        l2_l3_hits_detail = {
+            "l2": (node["l2_l3_hits"]["l2"] / req_count * 100.0),
+            "l3": (node["l2_l3_hits"]["l3"] / req_count * 100.0)
         }
         
         total_lats["direct"] += sum(node["latencies_list_direct"])
@@ -493,18 +614,27 @@ for node in client_nodes:
         total_lats["l2"] += sum(node["latencies_list_l2"])
         total_lats["l1"] += sum(node["latencies_list_l1"])
         total_lats["depth"] += sum(node["latencies_list_depth"])
+        total_lats["l1_l3"] += sum(node["latencies_list_l1_l3"])
+        total_lats["l1_l2"] += sum(node["latencies_list_l1_l2"])
+        total_lats["l2_l3"] += sum(node["latencies_list_l2_l3"])
         
         total_ttffs["direct"] += sum(node["ttff_list_direct"])
         total_ttffs["l3"] += sum(node["ttff_list_l3"])
         total_ttffs["l2"] += sum(node["ttff_list_l2"])
         total_ttffs["l1"] += sum(node["ttff_list_l1"])
         total_ttffs["depth"] += sum(node["ttff_list_depth"])
+        total_ttffs["l1_l3"] += sum(node["ttff_list_l1_l3"])
+        total_ttffs["l1_l2"] += sum(node["ttff_list_l1_l2"])
+        total_ttffs["l2_l3"] += sum(node["ttff_list_l2_l3"])
         
         total_rebuffs["direct"] += sum(node["rebuff_list_direct"])
         total_rebuffs["l3"] += sum(node["rebuff_list_l3"])
         total_rebuffs["l2"] += sum(node["rebuff_list_l2"])
         total_rebuffs["l1"] += sum(node["rebuff_list_l1"])
         total_rebuffs["depth"] += sum(node["rebuff_list_depth"])
+        total_rebuffs["l1_l3"] += sum(node["rebuff_list_l1_l3"])
+        total_rebuffs["l1_l2"] += sum(node["rebuff_list_l1_l2"])
+        total_rebuffs["l2_l3"] += sum(node["rebuff_list_l2_l3"])
         
         total_hits["l3"] += node["hits"]["l3"]
         total_hits["l2"] += node["hits"]["l2"]
@@ -513,10 +643,16 @@ for node in client_nodes:
         total_depth_hits["l1"] += node["depth_hits"]["l1"]
         total_depth_hits["l2"] += node["depth_hits"]["l2"]
         total_depth_hits["l3"] += node["depth_hits"]["l3"]
+        total_l1_l3_hits["l1"] += node["l1_l3_hits"]["l1"]
+        total_l1_l3_hits["l3"] += node["l1_l3_hits"]["l3"]
+        total_l1_l2_hits["l1"] += node["l1_l2_hits"]["l1"]
+        total_l1_l2_hits["l2"] += node["l1_l2_hits"]["l2"]
+        total_l2_l3_hits["l2"] += node["l2_l3_hits"]["l2"]
+        total_l2_l3_hits["l3"] += node["l2_l3_hits"]["l3"]
         
         total_req_count += req_count
         
-        for strat in ["direct", "l3", "l2", "l1", "depth"]:
+        for strat in ["direct", "l3", "l2", "l1", "depth", "l1_l3", "l1_l2", "l2_l3"]:
             regional_results[sido][strat].extend(node[f"latencies_list_{strat}"])
             regional_rebuffs[sido][strat].extend(node[f"rebuff_list_{strat}"])
         
@@ -535,7 +671,10 @@ for node in client_nodes:
         "rebuffs": rebuffs,
         "hit_rates": hit_rates,
         "requests": req_count,
-        "depth_hits_detail": depth_hits_detail
+        "depth_hits_detail": depth_hits_detail,
+        "l1_l3_hits_detail": l1_l3_hits_detail,
+        "l1_l2_hits_detail": l1_l2_hits_detail,
+        "l2_l3_hits_detail": l2_l3_hits_detail
     })
 
 # 글로벌 통계
@@ -545,6 +684,9 @@ global_avg_latency = {
     "l2": total_lats["l2"] / total_req_count,
     "l1": total_lats["l1"] / total_req_count,
     "depth": total_lats["depth"] / total_req_count,
+    "l1_l3": total_lats["l1_l3"] / total_req_count,
+    "l1_l2": total_lats["l1_l2"] / total_req_count,
+    "l2_l3": total_lats["l2_l3"] / total_req_count,
 }
 global_avg_ttff = {
     "direct": total_ttffs["direct"] / total_req_count,
@@ -552,6 +694,9 @@ global_avg_ttff = {
     "l2": total_ttffs["l2"] / total_req_count,
     "l1": total_ttffs["l1"] / total_req_count,
     "depth": total_ttffs["depth"] / total_req_count,
+    "l1_l3": total_ttffs["l1_l3"] / total_req_count,
+    "l1_l2": total_ttffs["l1_l2"] / total_req_count,
+    "l2_l3": total_ttffs["l2_l3"] / total_req_count,
 }
 global_avg_rebuff = {
     "direct": total_rebuffs["direct"] / total_req_count,
@@ -559,6 +704,9 @@ global_avg_rebuff = {
     "l2": total_rebuffs["l2"] / total_req_count,
     "l1": total_rebuffs["l1"] / total_req_count,
     "depth": total_rebuffs["depth"] / total_req_count,
+    "l1_l3": total_rebuffs["l1_l3"] / total_req_count,
+    "l1_l2": total_rebuffs["l1_l2"] / total_req_count,
+    "l2_l3": total_rebuffs["l2_l3"] / total_req_count,
 }
 global_hit_rate = {
     "direct": 0.0,
@@ -566,6 +714,9 @@ global_hit_rate = {
     "l2": (total_hits["l2"] / total_req_count) * 100.0,
     "l1": (total_hits["l1"] / total_req_count) * 100.0,
     "depth": ((total_depth_hits["l1"] + total_depth_hits["l2"] + total_depth_hits["l3"]) / total_req_count) * 100.0,
+    "l1_l3": ((total_l1_l3_hits["l1"] + total_l1_l3_hits["l3"]) / total_req_count) * 100.0,
+    "l1_l2": ((total_l1_l2_hits["l1"] + total_l1_l2_hits["l2"]) / total_req_count) * 100.0,
+    "l2_l3": ((total_l2_l3_hits["l2"] + total_l2_l3_hits["l3"]) / total_req_count) * 100.0,
 }
 
 # 비용 및 노드 수
@@ -574,7 +725,10 @@ cost_stats = {
     "l3": len(servers_l3) * COST_NATIONAL_NODE,
     "l2": len(servers_l2) * COST_REGIONAL_NODE,
     "l1": len(servers_l1) * COST_LOCAL_NODE,
-    "depth": (len(servers_l3) * COST_NATIONAL_NODE) + (len(servers_l2) * COST_REGIONAL_NODE) + (len(servers_l1) * COST_LOCAL_NODE)
+    "depth": (len(servers_l3) * COST_NATIONAL_NODE) + (len(servers_l2) * COST_REGIONAL_NODE) + (len(servers_l1) * COST_LOCAL_NODE),
+    "l1_l3": (len(servers_l3) * COST_NATIONAL_NODE) + (len(servers_l1) * COST_LOCAL_NODE),
+    "l1_l2": (len(servers_l2) * COST_REGIONAL_NODE) + (len(servers_l1) * COST_LOCAL_NODE),
+    "l2_l3": (len(servers_l3) * COST_NATIONAL_NODE) + (len(servers_l2) * COST_REGIONAL_NODE)
 }
 
 node_count_stats = {
@@ -582,7 +736,10 @@ node_count_stats = {
     "l3": len(servers_l3),
     "l2": len(servers_l2),
     "l1": len(servers_l1),
-    "depth": len(servers_l3) + len(servers_l2) + len(servers_l1)
+    "depth": len(servers_l3) + len(servers_l2) + len(servers_l1),
+    "l1_l3": len(servers_l3) + len(servers_l1),
+    "l1_l2": len(servers_l2) + len(servers_l1),
+    "l2_l3": len(servers_l3) + len(servers_l2)
 }
 
 strategy_metadata = {
@@ -705,6 +862,78 @@ strategy_metadata = {
             "offload": f"{global_hit_rate['depth']:.2f} %",
             "desc": "A depth architecture activating L1, L2, L3 nodes as a vertical hierarchy. It triggers a waterfall-like resolution path: Client -> L1 -> L2 -> L3 -> Origin. Cache miss at L1 checks L2 and L3 instead of going straight to origin, removing origin backhaul load and dropping average RTT to ~4ms."
         }
+    },
+    "l1_l3": {
+        "ko": {
+            "title": "계층형 CDN (L1 → L3)",
+            "latency": f"{global_avg_latency['l1_l3']:.2f} ms",
+            "hit": f"{global_hit_rate['l1_l3']:.2f} %",
+            "cost": f"{cost_stats['l1_l3']:,d}억 원",
+            "nodes": f"{node_count_stats['l1_l3']}개 (L1+L3 거점)",
+            "ttff": f"{global_avg_ttff['l1_l3']:.1f} ms",
+            "rebuff": f"{global_avg_rebuff['l1_l3']:.2f} %",
+            "offload": f"{global_hit_rate['l1_l3']:.2f} %",
+            "desc": "L1(읍면동)과 L3(시도) 노드만 수직 계층으로 연결하고 L2를 생략한 구조입니다. L2 노드를 제외해 구축 비용을 아끼면서도, L1 캐시 미스 시 서울 오리진이 아닌 광역 L3 캐시를 탐색하므로 지연 시간과 오리진 부하를 분배합니다."
+        },
+        "en": {
+            "title": "Hierarchical CDN (L1 → L3)",
+            "latency": f"{global_avg_latency['l1_l3']:.2f} ms",
+            "hit": f"{global_hit_rate['l1_l3']:.2f} %",
+            "cost": f"{cost_stats['l1_l3']:,d} Billion KRW",
+            "nodes": f"{node_count_stats['l1_l3']} Nodes (L1+L3)",
+            "ttff": f"{global_avg_ttff['l1_l3']:.1f} ms",
+            "rebuff": f"{global_avg_rebuff['l1_l3']:.2f} %",
+            "offload": f"{global_hit_rate['l1_l3']:.2f} %",
+            "desc": "A tiered network using L1 (Local Town) and L3 (Provincial) caches while skipping L2. It reduces municipal deployment costs while allowing L1 cache misses to check L3 provincial nodes instead of going straight to origin."
+        }
+    },
+    "l1_l2": {
+        "ko": {
+            "title": "계층형 CDN (L1 → L2)",
+            "latency": f"{global_avg_latency['l1_l2']:.2f} ms",
+            "hit": f"{global_hit_rate['l1_l2']:.2f} %",
+            "cost": f"{cost_stats['l1_l2']:,d}억 원",
+            "nodes": f"{node_count_stats['l1_l2']}개 (L1+L2 거점)",
+            "ttff": f"{global_avg_ttff['l1_l2']:.1f} ms",
+            "rebuff": f"{global_avg_rebuff['l1_l2']:.2f} %",
+            "offload": f"{global_hit_rate['l1_l2']:.2f} %",
+            "desc": "L1(읍면동)과 L2(시군구) 에지노드만을 가동하는 계층 구조입니다. 대용량 광역 L3 노드를 배제하고 L1 미스 시 상위 L2 노드에서 캐시를 탐색함으로써, 광역 거점 서버 비용을 절감하는 대안적 아키텍처입니다."
+        },
+        "en": {
+            "title": "Hierarchical CDN (L1 → L2)",
+            "latency": f"{global_avg_latency['l1_l2']:.2f} ms",
+            "hit": f"{global_hit_rate['l1_l2']:.2f} %",
+            "cost": f"{cost_stats['l1_l2']:,d} Billion KRW",
+            "nodes": f"{node_count_stats['l1_l2']} Nodes (L1+L2)",
+            "ttff": f"{global_avg_ttff['l1_l2']:.1f} ms",
+            "rebuff": f"{global_avg_rebuff['l1_l2']:.2f} %",
+            "offload": f"{global_hit_rate['l1_l2']:.2f} %",
+            "desc": "A tiered network using L1 (Local Town) and L2 (Municipal) caches while skipping L3. It avoids large provincial node deployment costs, allowing L1 cache misses to check nearby L2 municipal servers."
+        }
+    },
+    "l2_l3": {
+        "ko": {
+            "title": "계층형 CDN (L2 → L3)",
+            "latency": f"{global_avg_latency['l2_l3']:.2f} ms",
+            "hit": f"{global_hit_rate['l2_l3']:.2f} %",
+            "cost": f"{cost_stats['l2_l3']:,d}억 원",
+            "nodes": f"{node_count_stats['l2_l3']}개 (L2+L3 거점)",
+            "ttff": f"{global_avg_ttff['l2_l3']:.1f} ms",
+            "rebuff": f"{global_avg_rebuff['l2_l3']:.2f} %",
+            "offload": f"{global_hit_rate['l2_l3']:.2f} %",
+            "desc": "L2(시군구)와 L3(시도) 에지노드만 가동하고 L1을 배제한 구조입니다. 읍면동 단위 밀착 에지의 노드 수가 6,487개에 달해 발생하는 거대한 설치 비용과 캐시 풀링 상실 문제를 방지하면서 지리적 지연 속도를 대폭 줄입니다."
+        },
+        "en": {
+            "title": "Hierarchical CDN (L2 → L3)",
+            "latency": f"{global_avg_latency['l2_l3']:.2f} ms",
+            "hit": f"{global_hit_rate['l2_l3']:.2f} %",
+            "cost": f"{cost_stats['l2_l3']:,d} Billion KRW",
+            "nodes": f"{node_count_stats['l2_l3']} Nodes (L2+L3)",
+            "ttff": f"{global_avg_ttff['l2_l3']:.1f} ms",
+            "rebuff": f"{global_avg_rebuff['l2_l3']:.2f} %",
+            "offload": f"{global_hit_rate['l2_l3']:.2f} %",
+            "desc": "A tiered network using L2 (Municipal) and L3 (Provincial) caches while omitting L1. It avoids the massive deployment scale of 6,487 town nodes and the cache pooling loss, while maintaining reasonable latency RTT."
+        }
     }
 }
 
@@ -712,7 +941,7 @@ strategy_metadata = {
 print("=========================================================================")
 print(f"{'설치 레벨 (전략)':<20} | {'평균 RTT':<10} | {'평균 TTFF':<10} | {'재버퍼링 비율':<10} | {'부하 절감률':<10}")
 print("-------------------------------------------------------------------------")
-for strat, name in [("direct", "오리진 직접 연결"), ("l3", "L3 에지 (시/도)"), ("l2", "L2 에지 (시/군/구)"), ("l1", "L1 에지 (읍/면/동)"), ("depth", "계층형 CDN (Depth)")]:
+for strat, name in [("direct", "오리진 직접 연결"), ("l3", "L3 에지 (시/도)"), ("l2", "L2 에지 (시/군/구)"), ("l1", "L1 에지 (읍/면/동)"), ("depth", "계층형 CDN (Depth)"), ("l1_l3", "계층형 CDN (L1->L3)"), ("l1_l2", "계층형 CDN (L1->L2)"), ("l2_l3", "계층형 CDN (L2->L3)")]:
     print(f"{name:<18} | {global_avg_latency[strat]:8.2f} ms | {global_avg_ttff[strat]:8.1f} ms | {global_avg_rebuff[strat]:10.2f} % | {global_hit_rate[strat]:10.2f} %")
 print("=========================================================================")
 
@@ -722,7 +951,7 @@ def generate_charts(lang='ko'):
     print(f"4단계: Matplotlib 기반 대한민국 지리/통계 그래프 ({lang}) 생성 중...")
     
     # ---------------- 4-1단계: 종합 지리 맵 생성 ----------------
-    fig, axs = plt.subplots(2, 3, figsize=(18, 12))
+    fig, axs = plt.subplots(3, 3, figsize=(18, 18))
     
     # 다국어 타이틀 및 라벨 매핑
     if is_ko:
@@ -731,12 +960,15 @@ def generate_charts(lang='ko'):
             ("l3", "L3 에지 CDN (시/도 단위 - Width)", axs[0, 1]),
             ("l2", "L2 에지 CDN (시/군/구 단위 - Width)", axs[0, 2]),
             ("l1", "L1 에지 CDN (읍/면/동 단위 - Width)", axs[1, 0]),
-            ("depth", "계층형 멀티티어 CDN (Depth)", axs[1, 1])
+            ("depth", "계층형 멀티티어 CDN (Depth)", axs[1, 1]),
+            ("l1_l3", "계층형 CDN (L1 -> L3)", axs[1, 2]),
+            ("l1_l2", "계층형 CDN (L1 -> L2)", axs[2, 0]),
+            ("l2_l3", "계층형 CDN (L2 -> L3)", axs[2, 1]),
         ]
         pareto_title = "구축 비용 대비 RTT 성능 Pareto Frontier"
         pareto_xlabel = "구축 투자 비용 (억 원)"
         pareto_ylabel = "평균 응답 속도 (ms)"
-        pareto_labels = ["Direct", "L3 에지", "L2 에지", "L1 에지", "Depth 계층"]
+        pareto_labels = ["Direct", "L3 에지", "L2 에지", "L2->L3 계층", "L1 에지", "L1->L3 계층", "L1->L2 계층", "Depth 계층"]
         main_title = "대한민국 계층형 CDN 6,487개 행정동 지리적 성능 격차 실증 분석"
         colorbar_label = '평균 응답 지연 시간 (Latency RTT ms) | 녹색(우수) <----> 적색(지연)'
     else:
@@ -745,12 +977,15 @@ def generate_charts(lang='ko'):
             ("l3", "L3 Edge CDN (Provincial - Width)", axs[0, 1]),
             ("l2", "L2 Edge CDN (Municipal - Width)", axs[0, 2]),
             ("l1", "L1 Edge CDN (Local Town - Width)", axs[1, 0]),
-            ("depth", "Hierarchical CDN (Depth)", axs[1, 1])
+            ("depth", "Hierarchical CDN (Depth)", axs[1, 1]),
+            ("l1_l3", "Hierarchical CDN (L1 -> L3)", axs[1, 2]),
+            ("l1_l2", "Hierarchical CDN (L1 -> L2)", axs[2, 0]),
+            ("l2_l3", "Hierarchical CDN (L2 -> L3)", axs[2, 1]),
         ]
         pareto_title = "RTT Latency vs Deployment Cost Pareto Frontier"
         pareto_xlabel = "Deployment Investment Cost (100M KRW)"
         pareto_ylabel = "Avg Response Time (ms)"
-        pareto_labels = ["Direct", "L3 Edge", "L2 Edge", "L1 Edge", "Depth Tier"]
+        pareto_labels = ["Direct", "L3 Edge", "L2 Edge", "L2->L3 Tier", "L1 Edge", "L1->L3 Tier", "L1->L2 Tier", "Depth Tier"]
         main_title = "Geographical CDN Latency Gap Analysis across 6,487 Towns in South Korea"
         colorbar_label = 'Avg Round Trip Time (Latency RTT ms) | Green (Fast) <----> Red (Slow)'
 
@@ -794,6 +1029,21 @@ def generate_charts(lang='ko'):
             l2_lats = [v["coords"][0] for v in servers_l2.values()]
             ax.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=45, edgecolor='#ffffff', linewidth=0.5, zorder=4)
             ax.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=25, edgecolor='#ffffff', linewidth=0.4, zorder=4)
+        elif strat_id == "l1_l3":
+            l3_lons = [v["coords"][1] for v in servers_l3.values()]
+            l3_lats = [v["coords"][0] for v in servers_l3.values()]
+            ax.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=45, edgecolor='#ffffff', linewidth=0.5, zorder=4)
+        elif strat_id == "l1_l2":
+            l2_lons = [v["coords"][1] for v in servers_l2.values()]
+            l2_lats = [v["coords"][0] for v in servers_l2.values()]
+            ax.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=25, edgecolor='#ffffff', linewidth=0.4, zorder=4)
+        elif strat_id == "l2_l3":
+            l3_lons = [v["coords"][1] for v in servers_l3.values()]
+            l3_lats = [v["coords"][0] for v in servers_l3.values()]
+            l2_lons = [v["coords"][1] for v in servers_l2.values()]
+            l2_lats = [v["coords"][0] for v in servers_l2.values()]
+            ax.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=45, edgecolor='#ffffff', linewidth=0.5, zorder=4)
+            ax.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=25, edgecolor='#ffffff', linewidth=0.4, zorder=4)
             
         ax.scatter(origin_coords[1], origin_coords[0], color='#f1c40f', marker='*', s=150, edgecolor='#ffffff', linewidth=1.0, zorder=5)
         
@@ -808,11 +1058,13 @@ def generate_charts(lang='ko'):
     ax_eff.set_facecolor('#0c1017')
     ax_eff.set_title(pareto_title, fontsize=12, fontweight='bold', color='#f0f6fc', pad=10)
 
-    costs = [cost_stats[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
-    lats = [global_avg_latency[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
-    colors_eff = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f1c40f']
+    # Sorted by cost: direct(0), l3(2040), l2(6250), l2_l3(8290), l1(32435), l1_l3(34475), l1_l2(38685), depth(40725)
+    pareto_strats = ["direct", "l3", "l2", "l2_l3", "l1", "l1_l3", "l1_l2", "depth"]
+    costs = [cost_stats[s] for s in pareto_strats]
+    lats = [global_avg_latency[s] for s in pareto_strats]
+    colors_eff = ['#e74c3c', '#3498db', '#2ecc71', '#95a5a6', '#9b59b6', '#e67e22', '#1abc9c', '#f1c40f']
 
-    for k in range(5):
+    for k in range(len(pareto_strats)):
         ax_eff.scatter(costs[k], lats[k], color=colors_eff[k], s=120, edgecolor='white', linewidth=1.0, zorder=3, label=pareto_labels[k])
         ax_eff.text(costs[k] + 150, lats[k] + 0.1, pareto_labels[k], fontsize=9, color='#c9d1d9', fontweight='semibold')
 
@@ -826,9 +1078,9 @@ def generate_charts(lang='ko'):
 
     plt.suptitle(main_title, fontsize=16, fontweight='bold', color='#ffffff', y=0.96)
     plt.tight_layout()
-    fig.subplots_adjust(top=0.90, bottom=0.08)
+    fig.subplots_adjust(top=0.92, bottom=0.06)
 
-    cbar_ax = fig.add_axes([0.15, 0.04, 0.7, 0.015])
+    cbar_ax = fig.add_axes([0.15, 0.02, 0.7, 0.012])
     cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cbar_ax, orientation='horizontal')
     cb.set_label(colorbar_label, fontsize=11, fontweight='bold', labelpad=5, color='#ffffff')
     cb.ax.tick_params(labelsize=9, colors='#ffffff')
@@ -869,6 +1121,21 @@ def generate_charts(lang='ko'):
             l2_lats = [v["coords"][0] for v in servers_l2.values()]
             ax_single.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=80, edgecolor='#ffffff', linewidth=0.8, zorder=4)
             ax_single.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=50, edgecolor='#ffffff', linewidth=0.6, zorder=4)
+        elif strat_id == "l1_l3":
+            l3_lons = [v["coords"][1] for v in servers_l3.values()]
+            l3_lats = [v["coords"][0] for v in servers_l3.values()]
+            ax_single.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=80, edgecolor='#ffffff', linewidth=0.8, zorder=4)
+        elif strat_id == "l1_l2":
+            l2_lons = [v["coords"][1] for v in servers_l2.values()]
+            l2_lats = [v["coords"][0] for v in servers_l2.values()]
+            ax_single.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=50, edgecolor='#ffffff', linewidth=0.6, zorder=4)
+        elif strat_id == "l2_l3":
+            l3_lons = [v["coords"][1] for v in servers_l3.values()]
+            l3_lats = [v["coords"][0] for v in servers_l3.values()]
+            l2_lons = [v["coords"][1] for v in servers_l2.values()]
+            l2_lats = [v["coords"][0] for v in servers_l2.values()]
+            ax_single.scatter(l3_lons, l3_lats, color='#3498db', marker='s', s=80, edgecolor='#ffffff', linewidth=0.8, zorder=4)
+            ax_single.scatter(l2_lons, l2_lats, color='#2ecc71', marker='^', s=50, edgecolor='#ffffff', linewidth=0.6, zorder=4)
             
         ax_single.scatter(origin_coords[1], origin_coords[0], color='#f1c40f', marker='*', s=200, edgecolor='#ffffff', linewidth=1.2, zorder=5)
         
@@ -893,7 +1160,7 @@ def generate_charts(lang='ko'):
     fig_pareto, ax_pareto = plt.subplots(figsize=(8, 6))
     ax_pareto.set_facecolor('#0c1017')
     ax_pareto.set_title(pareto_title, fontsize=14, fontweight='bold', color='#f0f6fc', pad=10)
-    for k in range(5):
+    for k in range(len(pareto_strats)):
         ax_pareto.scatter(costs[k], lats[k], color=colors_eff[k], s=180, edgecolor='white', linewidth=1.2, zorder=3, label=pareto_labels[k])
         ax_pareto.text(costs[k] + 150, lats[k] + 0.1, pareto_labels[k], fontsize=10, color='#c9d1d9', fontweight='semibold')
     ax_pareto.plot(costs, lats, color='#444d56', linestyle='--', linewidth=2.0, zorder=2)
@@ -919,22 +1186,23 @@ def generate_charts(lang='ko'):
     ax.set_facecolor('#0c1017')
     if is_ko:
         ax.set_title("아키텍처별 평균 RTT 및 TTFF 비교", fontsize=12, fontweight='bold', color='#f0f6fc')
-        names = ["Direct", "L3 에지", "L2 에지", "L1 에지", "Depth 계층"]
+        names = ["Direct", "L3 에지", "L2 에지", "L1 에지", "L2->L3", "L1->L3", "L1->L2", "Depth"]
         rtt_label = 'RTT (좌축)'
         ttff_label = 'TTFF (우축)'
         ylabel_rtt = "평균 응답 속도 RTT (ms)"
         ylabel_ttff = "첫 프레임 재생 시간 TTFF (ms)"
     else:
         ax.set_title("Average RTT and TTFF by Architecture", fontsize=12, fontweight='bold', color='#f0f6fc')
-        names = ["Direct", "L3 Edge", "L2 Edge", "L1 Edge", "Depth Tier"]
+        names = ["Direct", "L3 Edge", "L2 Edge", "L1 Edge", "L2->L3", "L1->L3", "L1->L2", "Depth"]
         rtt_label = 'RTT (Left)'
         ttff_label = 'TTFF (Right)'
         ylabel_rtt = "Average Round Trip Time RTT (ms)"
         ylabel_ttff = "Time to First Frame TTFF (ms)"
         
-    avg_lats = [global_avg_latency[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
-    avg_ttffs = [global_avg_ttff[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
-    colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f1c40f']
+    names_id = ["direct", "l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]
+    avg_lats = [global_avg_latency[s] for s in names_id]
+    avg_ttffs = [global_avg_ttff[s] for s in names_id]
+    colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#95a5a6', '#e67e22', '#1abc9c', '#f1c40f']
 
     x_indexes = np.arange(len(names))
     width = 0.35
@@ -977,8 +1245,9 @@ def generate_charts(lang='ko'):
         offload_label = 'Origin Offload Rate'
         ylabel_ratio = "Ratio (%)"
 
-    hit_rates = [global_hit_rate[s] for s in ["l3", "l2", "l1", "depth"]]
-    offload_rates = [global_hit_rate[s] for s in ["l3", "l2", "l1", "depth"]]
+    names_hit_id = ["l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]
+    hit_rates = [global_hit_rate[s] for s in names_hit_id]
+    offload_rates = [global_hit_rate[s] for s in names_hit_id]
 
     x_indexes_hit = np.arange(len(names[1:]))
     width_hit = 0.35
@@ -1013,7 +1282,7 @@ def generate_charts(lang='ko'):
         ax.set_title("Average Re-buffering Ratio by Architecture", fontsize=12, fontweight='bold', color='#f0f6fc')
         ylabel_rebuff = "Average Re-buffering Ratio (%)"
 
-    avg_rebuffs = [global_avg_rebuff[s] for s in ["direct", "l3", "l2", "l1", "depth"]]
+    avg_rebuffs = [global_avg_rebuff[s] for s in ["direct", "l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]]
     rects_reb = ax.bar(names, avg_rebuffs, color=colors, edgecolor='#2f3640', width=0.45, zorder=3)
     ax.set_ylabel(ylabel_rebuff, color='#8b949e')
     ax.tick_params(colors='#8b949e', labelsize=10)
@@ -1041,9 +1310,10 @@ def generate_charts(lang='ko'):
     x_indexes_city = np.arange(len(target_cities))
     width_city = 0.15
 
-    for idx, strat in enumerate(["direct", "l3", "l2", "l1", "depth"]):
+    width_city = 0.09
+    for idx, strat in enumerate(["direct", "l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]):
         avg_vals = [np.mean(regional_rebuffs[c][strat]) if len(regional_rebuffs[c][strat]) > 0 else 0 for c in target_cities]
-        ax.bar(x_indexes_city + (idx - 2) * width_city, avg_vals, width_city, label=names[idx], color=colors[idx], edgecolor='#2f3640')
+        ax.bar(x_indexes_city + (idx - 3.5) * width_city, avg_vals, width_city, label=names[idx], color=colors[idx], edgecolor='#2f3640')
 
     ax.set_xticks(x_indexes_city)
     ax.set_xticklabels(city_labels)
@@ -1177,9 +1447,10 @@ def generate_charts(lang='ko'):
         ax4.set_title("Average Re-buffering Ratio by Major Regions", fontsize=14, fontweight='bold', color='#f0f6fc')
         ylabel_city = "Average Re-buffering Ratio (%)"
 
-    for idx, strat in enumerate(["direct", "l3", "l2", "l1", "depth"]):
+    width_city = 0.09
+    for idx, strat in enumerate(["direct", "l3", "l2", "l1", "l2_l3", "l1_l3", "l1_l2", "depth"]):
         avg_vals = [np.mean(regional_rebuffs[c][strat]) if len(regional_rebuffs[c][strat]) > 0 else 0 for c in target_cities]
-        ax4.bar(x_indexes_city + (idx - 2) * width_city, avg_vals, width_city, label=names[idx], color=colors[idx], edgecolor='#2f3640')
+        ax4.bar(x_indexes_city + (idx - 3.5) * width_city, avg_vals, width_city, label=names[idx], color=colors[idx], edgecolor='#2f3640')
     ax4.set_xticks(x_indexes_city)
     ax4.set_xticklabels(city_labels)
     ax4.set_ylabel(ylabel_city, color='#8b949e')
@@ -1593,6 +1864,30 @@ html_template = f"""<!DOCTYPE html>
                         <span class="card-desc" id="card-desc-depth">Client → L1 → L2 → L3 → Origin</span>
                     </div>
                 </div>
+                <div class="strategy-card" onclick="selectStrategy('l2_l3')">
+                    <input type="radio" name="strategy" id="r-l2_l3">
+                    <div class="card-icon" style="color: #95a5a6;"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="card-details">
+                        <span class="card-name" id="card-name-l2_l3">계층형 CDN (L2 → L3)</span>
+                        <span class="card-desc" id="card-desc-l2_l3">Client → L2 → L3 → Origin</span>
+                    </div>
+                </div>
+                <div class="strategy-card" onclick="selectStrategy('l1_l3')">
+                    <input type="radio" name="strategy" id="r-l1_l3">
+                    <div class="card-icon" style="color: #e67e22;"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="card-details">
+                        <span class="card-name" id="card-name-l1_l3">계층형 CDN (L1 → L3)</span>
+                        <span class="card-desc" id="card-desc-l1_l3">Client → L1 → L3 → Origin</span>
+                    </div>
+                </div>
+                <div class="strategy-card" onclick="selectStrategy('l1_l2')">
+                    <input type="radio" name="strategy" id="r-l1_l2">
+                    <div class="card-icon" style="color: #1abc9c;"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="card-details">
+                        <span class="card-name" id="card-name-l1_l2">계층형 CDN (L1 → L2)</span>
+                        <span class="card-desc" id="card-desc-l1_l2">Client → L1 → L2 → Origin</span>
+                    </div>
+                </div>
             </div>
             
             <!-- Stats Dashboard -->
@@ -1785,7 +2080,13 @@ html_template = f"""<!DOCTYPE html>
                 l1_card_name: "L1 에지 (읍/면/동 단위 - Width)",
                 l1_card_desc: "전국 {len(servers_l1)}개 동네 밀착형 에지",
                 depth_card_name: "계층형 멀티티어 CDN (Depth)",
-                depth_card_desc: "Client → L1 → L2 → L3 → Origin"
+                depth_card_desc: "Client → L1 → L2 → L3 → Origin",
+                l2_l3_card_name: "계층형 CDN (L2 → L3)",
+                l2_l3_card_desc: "전국 {len(servers_l2)}개 L2 → {len(servers_l3)}개 L3 거점",
+                l1_l3_card_name: "계층형 CDN (L1 → L3)",
+                l1_l3_card_desc: "전국 {len(servers_l1)}개 L1 → {len(servers_l3)}개 L3 거점",
+                l1_l2_card_name: "계층형 CDN (L1 → L2)",
+                l1_l2_card_desc: "전국 {len(servers_l1)}개 L1 → {len(servers_l2)}개 L2 거점"
             }},
             en: {{
                 title: "CDN Edge Network Dashboard",
@@ -1851,7 +2152,13 @@ html_template = f"""<!DOCTYPE html>
                 l1_card_name: "L1 Edge (Local Town - Width)",
                 l1_card_desc: "{len(servers_l1)} Local town centers",
                 depth_card_name: "Multi-tier Hierarchical CDN (Depth)",
-                depth_card_desc: "Client → L1 → L2 → L3 → Origin"
+                depth_card_desc: "Client → L1 → L2 → L3 → Origin",
+                l2_l3_card_name: "Hierarchical CDN (L2 → L3)",
+                l2_l3_card_desc: "{len(servers_l2)} L2 → {len(servers_l3)} L3 nodes",
+                l1_l3_card_name: "Hierarchical CDN (L1 → L3)",
+                l1_l3_card_desc: "{len(servers_l1)} L1 → {len(servers_l3)} L3 nodes",
+                l1_l2_card_name: "Hierarchical CDN (L1 → L2)",
+                l1_l2_card_desc: "{len(servers_l1)} L1 → {len(servers_l2)} L2 nodes"
             }}
         }};
 
@@ -1917,6 +2224,15 @@ html_template = f"""<!DOCTYPE html>
             
             document.getElementById('card-name-depth').innerText = t.depth_card_name;
             document.getElementById('card-desc-depth').innerText = t.depth_card_desc;
+            
+            document.getElementById('card-name-l2_l3').innerText = t.l2_l3_card_name;
+            document.getElementById('card-desc-l2_l3').innerText = t.l2_l3_card_desc;
+            
+            document.getElementById('card-name-l1_l3').innerText = t.l1_l3_card_name;
+            document.getElementById('card-desc-l1_l3').innerText = t.l1_l3_card_desc;
+            
+            document.getElementById('card-name-l1_l2').innerText = t.l1_l2_card_name;
+            document.getElementById('card-desc-l1_l2').innerText = t.l1_l2_card_desc;
             
             updateUI();
             drawMapLayers();
@@ -2116,6 +2432,39 @@ html_template = f"""<!DOCTYPE html>
                             <div class="popup-row"><span class="popup-label">${{t.popup_l3_hit}}:</span><span class="popup-val" style="color: #3498db;">${{client.depth_hits_detail.l3.toFixed(1)}}%</span></div>
                         </div>
                     `;
+                }} else if (currentStrategy === 'l1_l3') {{
+                    popupContent += `
+                        <div class="popup-row">
+                            <span class="popup-label">${{t.popup_total_hit}}:</span>
+                            <span class="popup-val" style="color: #00d2d3;">${{hitVal.toFixed(1)}} %</span>
+                        </div>
+                        <div style="margin-top: 6px; padding-top: 4px; border-top: 1px dashed rgba(255,255,255,0.05); font-size: 11px;">
+                            <div class="popup-row"><span class="popup-label">${{t.popup_l1_hit}}:</span><span class="popup-val" style="color: #9b59b6;">${{client.l1_l3_hits_detail.l1.toFixed(1)}}%</span></div>
+                            <div class="popup-row"><span class="popup-label">${{t.popup_l3_hit}}:</span><span class="popup-val" style="color: #3498db;">${{client.l1_l3_hits_detail.l3.toFixed(1)}}%</span></div>
+                        </div>
+                    `;
+                }} else if (currentStrategy === 'l1_l2') {{
+                    popupContent += `
+                        <div class="popup-row">
+                            <span class="popup-label">${{t.popup_total_hit}}:</span>
+                            <span class="popup-val" style="color: #00d2d3;">${{hitVal.toFixed(1)}} %</span>
+                        </div>
+                        <div style="margin-top: 6px; padding-top: 4px; border-top: 1px dashed rgba(255,255,255,0.05); font-size: 11px;">
+                            <div class="popup-row"><span class="popup-label">${{t.popup_l1_hit}}:</span><span class="popup-val" style="color: #9b59b6;">${{client.l1_l2_hits_detail.l1.toFixed(1)}}%</span></div>
+                            <div class="popup-row"><span class="popup-label">${{t.popup_l2_hit}}:</span><span class="popup-val" style="color: #2ecc71;">${{client.l1_l2_hits_detail.l2.toFixed(1)}}%</span></div>
+                        </div>
+                    `;
+                }} else if (currentStrategy === 'l2_l3') {{
+                    popupContent += `
+                        <div class="popup-row">
+                            <span class="popup-label">${{t.popup_total_hit}}:</span>
+                            <span class="popup-val" style="color: #00d2d3;">${{hitVal.toFixed(1)}} %</span>
+                        </div>
+                        <div style="margin-top: 6px; padding-top: 4px; border-top: 1px dashed rgba(255,255,255,0.05); font-size: 11px;">
+                            <div class="popup-row"><span class="popup-label">${{t.popup_l2_hit}}:</span><span class="popup-val" style="color: #2ecc71;">${{client.l2_l3_hits_detail.l2.toFixed(1)}}%</span></div>
+                            <div class="popup-row"><span class="popup-label">${{t.popup_l3_hit}}:</span><span class="popup-val" style="color: #3498db;">${{client.l2_l3_hits_detail.l3.toFixed(1)}}%</span></div>
+                        </div>
+                    `;
                 }} else if (currentStrategy !== 'direct') {{
                     popupContent += `
                         <div class="popup-row">
@@ -2155,6 +2504,82 @@ html_template = f"""<!DOCTYPE html>
                                 color: '#3498db',
                                 weight: 2.0,
                                 opacity: 0.8
+                            }}).addTo(map);
+                            pathLines.push(lineToL3);
+                            
+                            const lineToOrigin = L.polyline([[s3.lat, s3.lon], originCoords], {{
+                                color: '#ff7675',
+                                weight: 1.5,
+                                opacity: 0.6,
+                                dashArray: '5, 5'
+                            }}).addTo(map);
+                            pathLines.push(lineToOrigin);
+                        }}
+                    }} else if (currentStrategy === 'l1_l3') {{
+                        const s3 = serversL3.find(s => s.id === client.l3_id);
+                        if (s3) {{
+                            const lineToL1 = L.polyline([[client.lat, client.lon], [client.server_lat, client.server_lon]], {{
+                                color: '#9b59b6',
+                                weight: 2.5,
+                                opacity: 0.95
+                            }}).addTo(map);
+                            pathLines.push(lineToL1);
+                            
+                            const lineToL3 = L.polyline([[client.server_lat, client.server_lon], [s3.lat, s3.lon]], {{
+                                color: '#3498db',
+                                weight: 2.5,
+                                opacity: 0.85
+                            }}).addTo(map);
+                            pathLines.push(lineToL3);
+                            
+                            const lineToOrigin = L.polyline([[s3.lat, s3.lon], originCoords], {{
+                                color: '#ff7675',
+                                weight: 1.5,
+                                opacity: 0.6,
+                                dashArray: '5, 5'
+                            }}).addTo(map);
+                            pathLines.push(lineToOrigin);
+                        }}
+                    }} else if (currentStrategy === 'l1_l2') {{
+                        const s2 = serversL2.find(s => s.id === client.l2_id);
+                        if (s2) {{
+                            const lineToL1 = L.polyline([[client.lat, client.lon], [client.server_lat, client.server_lon]], {{
+                                color: '#9b59b6',
+                                weight: 2.5,
+                                opacity: 0.95
+                            }}).addTo(map);
+                            pathLines.push(lineToL1);
+                            
+                            const lineToL2 = L.polyline([[client.server_lat, client.server_lon], [s2.lat, s2.lon]], {{
+                                color: '#2ecc71',
+                                weight: 2.5,
+                                opacity: 0.85
+                            }}).addTo(map);
+                            pathLines.push(lineToL2);
+                            
+                            const lineToOrigin = L.polyline([[s2.lat, s2.lon], originCoords], {{
+                                color: '#ff7675',
+                                weight: 1.5,
+                                opacity: 0.6,
+                                dashArray: '5, 5'
+                            }}).addTo(map);
+                            pathLines.push(lineToOrigin);
+                        }}
+                    }} else if (currentStrategy === 'l2_l3') {{
+                        const s2 = serversL2.find(s => s.id === client.l2_id);
+                        const s3 = serversL3.find(s => s.id === client.l3_id);
+                        if (s2 && s3) {{
+                            const lineToL2 = L.polyline([[client.lat, client.lon], [s2.lat, s2.lon]], {{
+                                color: '#2ecc71',
+                                weight: 2.5,
+                                opacity: 0.95
+                            }}).addTo(map);
+                            pathLines.push(lineToL2);
+                            
+                            const lineToL3 = L.polyline([[s2.lat, s2.lon], [s3.lat, s3.lon]], {{
+                                color: '#3498db',
+                                weight: 2.5,
+                                opacity: 0.85
                             }}).addTo(map);
                             pathLines.push(lineToL3);
                             
@@ -2274,7 +2699,7 @@ if os.path.exists(artifact_dir):
     # 개별 분할 이미지들 복사 (한글/영어 모두)
     for lang in ['ko', 'en']:
         # 개별 지도 복사
-        for strat in ['direct', 'l3', 'l2', 'l1', 'depth']:
+        for strat in ['direct', 'l3', 'l2', 'l1', 'depth', 'l1_l3', 'l1_l2', 'l2_l3']:
             map_name = f'korea_cdn_map_{strat}_{lang}.png'
             src_map = os.path.join('/home/donghwi/cloud_network_project', map_name)
             if os.path.exists(src_map):
